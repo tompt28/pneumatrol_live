@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% extends "ORWAapp/base.html" %}
+    {% block body_block %}
+        <title>Reject {{ od.order_number }}</title>
+        <div class="container">
+            <div class="jumbotron">
+            <center>
+                <h1>Reject ORWA: {{ od.order_number }}</h1>
+                    <hr class="my-4">
+                <p class="lead">Hi {{ insert_me }}. You want to reject this ORWA?</p>
+                    <hr class="my-4">
+
+                {% if added %}
+                    <h2> {{ insert_me }}, You have sucsessfully rejected the order {{ od.order_number }} </h2>
+                    <br>
+                    <h3> To go back click here </h3>
+                    <a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:OpenOrders' %}" role="button">Back to Open Orders</a>
+
+                {% else %}
+                    <table>
+                        <tr>
+                            <th>Customer</th>
+                            <td>{{ od.customer }}</td>
+                        </tr>
+                        <tr>
+                            <th>Order date</th>
+                            <td>{{ od.order_date }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date entered</th>
+                            <td>{{ od.entered_date }}</td>
+                        </tr>            
+                    </table>
+                <br>
+                    <hr class="my-4">
+                        <form enctype="multipart/form-data" class="" method="POST">
+                        {% csrf_token %}
+                            <table id="Add parts">
+                                {{ RejectForm.as_table }}  
+                            </tr>           
+                            </table>
+                        <br>
+                        <input type="submit" class = "btn btn-primary btn-lg" name="" value="Reject Order">    
+                    </form  >
+                    <br>
+                    <script>document.write('<a class="btn btn-outline-secondary btn-lg" href="' + document.referrer + '">Back to Open Orders</a>');
+                    </script>
+                {% endif %}
+                </center>
+
+{% endblock %}

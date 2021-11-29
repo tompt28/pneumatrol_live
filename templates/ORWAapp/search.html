@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+{% extends "ORWAapp/base.html" %}
+	{% block body_block %}
+		<title>Search</title>
+		<div class="container">
+			<center>
+			<div class="jumbotron">
+				<h1>Search page</h1>
+				<hr class="my-4">
+
+				<p class="lead"> Hi {{ insert_me }} Here are the results for: {{ SI }}</p>
+
+				<hr class="my-4">
+				<p class="lead"></p>
+
+				<table>
+					<tr><th>Sales orders</th></tr>
+				    <tr>
+				        <th>Order Number</th>
+				        <th>Customer</th>
+				        <th>Entered Date</th>
+				        <th>Order Date</th>
+				        <th>issue Date</th>
+				        <th>ORWA lines</th>
+				        <th>Notes</th>
+				        <th>Paperwork</th>
+				    </tr>
+				{% for r in ONresults %}
+                    <tr>
+                        <td><a href="{% url 'ORWAapp:OrderDetail' r.id %}">{{ r.order_number }}</a></td>
+                        <td>{{ r.customer }}</td>
+                        <td>{{ r.entered_date }}</td>
+                        <td>{{ r.order_date }}</td>
+                        <td>{{ r.issue_date }}</td>
+                        <td>{{ r.ORWA_lines }}</td>
+                        <td>{{ r.notes }}</td>
+                        <td><a href="/media/{{ r.paperwork }}" target="_blank">{{ r.order_number }}</a></td>
+                    </tr>
+
+                {% endfor %}
+				</table>
+
+				<br>
+				<hr class="my-4">
+
+				<table>
+					<tr>
+						<th>Part codes</th>
+					</tr>
+					<tr>
+						<th>part_code</th>
+						<th>part_type</th>
+						<th>sales_order</th>
+						<th>completed_by</th>
+						<th>completed_date</th>
+						<th>approved_by</th>
+						<th>approved_date</th>
+						<th>notes</th>
+						<th>size</th>
+					</tr>
+					<tr>
+   					{% for PC in PCresults %}
+                        <td><a href="{% url 'ORWAapp:PartDetail' PC.id %}">{{ PC.part_code }}</a></td>
+						<td>{{ PC.part_type }}</td>
+                        <td><a href="{% url 'ORWAapp:OrderDetail' PC.id %}">{{ PC.sales_order }}</a></td>
+						<td>{{ PC.completed_by }}</td>
+						<td>{{ PC.completed_date }}</td>
+						<td>{{ PC.approved_by }}</td>
+						<td>{{ PC.approved_date }}</td>
+						<td>{{ PC.notes }}</td>
+						<td>{{ PC.size }}</td>
+					</tr>
+					{% endfor %}
+				</table>
+
+
+   				<br>
+				<hr class="my-4">
+    			<script>document.write('<a class="btn btn-outline-secondary btn-lg" href="' + document.referrer + '">Home</a>');</script>
+{% endblock %}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% extends "ORWAapp/base.html" %}
+	{% block body_block %}
+		<title>Add Part Type </title>
+		<div class="container">
+			<div class="jumbotron">
+				<center>
+						{% if added %}
+					
+						<h2> {{ insert_me }} has added new Part type </h2>
+
+						<centre><p class="lead">Hi {{ insert_me }}. Add new customers below.  </p>
+						<hr class="my-4">
+						
+						<form enctype="multipart/form-data" class="" method="POST">
+							
+							{% csrf_token %}
+						
+							<table id="Parttypes">
+								{{ NewTypeForm.as_table}}			
+							</table>
+
+							<br>
+							<input type="submit" class = "btn btn-primary btn-lg" name="" value="Add New part Type ">	
+						</form>
+
+					{%else%}
+
+
+						<h1>Add part types</h1>
+						<hr class="my-4">
+						<centre><p class="lead">Hi {{ insert_me }}. Create a new part type to classify ORWAS with.  </p>
+						<hr class="my-4">
+						
+						<form enctype="multipart/form-data" class="" method="POST">
+							
+							{% csrf_token %}
+						
+							<table id="Parttypes">
+
+								{{ NewTypeForm.as_table}}			
+							</table>
+
+							<br>
+							<input type="submit" class = "btn btn-primary btn-lg" name="" value="Add New part Type">	
+						</form>
+					
+					{% endif %}
+
+				</centre>
+			<hr class="my-4">
+			<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">Home</a>
+			</div>
+		</div>
+	{% endblock %}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% extends "ORWAapp/base.html" %}
+	{% block body_block %}
+		<title>Approve Parts</title>
+		<div class="container">
+			<div class="jumbotron">
+				<center>
+					<h1>Approve Part codes </h1>
+						<hr class="my-4">
+						<p class="lead">Hi {{ insert_me }}. Approve the uploaded part codes and sign off the ORWA's </p>
+						<hr class="my-4">
+						<table id="Approval">
+						    <tr>
+						        <th><strong>ID</strong></th>
+						        <th><strong>Part Code</strong></th>	  
+						        <th><strong>Sales Order</strong></th>
+						        <th><strong>Completed By</strong></th>
+						        <th><strong>Completed Date</strong></th>
+						        <th><strong>Size</strong></th>
+						        <th><strong>Notes</strong></th>
+						    </tr>
+						    {% for p in Parts %}
+						    <tr>
+						    	<td>{{ p.id }}</td>
+						    	<td><a href="{% url 'ORWAapp:ApprovePart' p.id %}">{{ p.part_code }}</a></td>
+						        <td>{{ p.sales_order }}</td>
+						        <td>{{ p.completed_by }}</td>
+						        <td>{{ p.completed_date }}</td>
+						        <td>{{ p.size }}</td>
+						        <td>{{ p.notes }}</td>
+						    </tr>
+						    {% endfor %}
+	    				</table>
+				</center>
+			<hr class="my-4">
+			<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">Back</a>
+			</div>
+		</div>
+	{% endblock %}

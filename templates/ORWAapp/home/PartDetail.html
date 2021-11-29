@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% extends "ORWAapp/base.html" %}
+    {% block body_block %}
+        <title>{{p.part_code }}</title>
+        <div class="container">
+            <center>
+            <div class="jumbotron">
+                <h1>Part details:{{p.part_code }}</h1>
+                <hr class="my-4">
+                <p class="lead"> </p>
+
+                <table>
+                    <tr>
+                        <th>Sales order:</th>
+                        <td></td>
+                        <td>{{ p.sales_order.order_number }} ({{ p.sales_order.customer.short_name }})</td>
+                    </tr>
+                    <tr>
+                        <th>Part type:</th>
+                        <td></td>
+                        <td>{{ p.part_type }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date started:</th>
+                        <td></td>
+                        <td>{{ p.start_date }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date completed:</th>
+                        <td></td>
+                        <td>{{ p.completed_date }}</td>
+                    </tr>            
+                    <tr>
+                        <th>Completed by:</th>
+                        <td></td>
+                        <td>{{ p.completed_by }}</td>
+                    </tr>
+                    </tr>
+                        <th>Date approved:</th>
+                        <td></td>
+                        <td>{{ p.approved_date }}</td>
+                    </tr>
+                    </tr>
+                        <th>Approved by:</th>
+                        <td></td>
+                        <td>{{ p.approved_by }}</td>
+                    </tr>
+                </table>
+            <hr class="my-4">
+            </div>
+        </center>
+        <hr class="my-4">
+        <center><script>document.write('<a class="btn btn-outline-secondary btn-lg" href="' + document.referrer + '">Back to All parts list</a>');
+        </script></center>
+
+{% endblock %}

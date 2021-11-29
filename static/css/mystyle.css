@@ -1,0 +1,28 @@
+img{
+	height: 45px;
+}
+
+
+table{
+    width:100%;
+    font-size: 16px;
+
+}
+td, th{
+	height: 56px;
+	padding-top: 12px;
+	padding-bottom: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align:left;
+
+}
+th{
+	/*border-right: solid 1px #ddd;*/
+}
+.helptext{
+	font-size: 12px;
+}
+
+.nav-link{
+	border-right: solid 1px #ddd;
+}

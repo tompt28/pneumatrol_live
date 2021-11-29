@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+{% extends "ORWAapp/base.html" %}
+    {% block body_block %}
+        <title>Order Details </title>
+        <div class="container">
+            <div class="jumbotron">
+                <center>
+                    <h1>Order details: {{ od.order_number }}</h1>
+                    <hr class="my-4">
+                        <p class="lead">Hi {{ insert_me }}. See the details for the order below</p>
+                        <hr class="my-4">
+
+                        <table>
+                            <h2>Sales details</h2>
+                            <tr>
+                                <th>Customer</th>
+                                <td>{{ od.customer }}</td>
+                            </tr>
+                            <tr>
+                                <th>Order date</th>
+                                <td>{{ od.order_date }}</td>
+                            </tr>
+                            <tr>
+                                <th>Date entered</th>
+                                <td>{{ od.entered_date }}</td>
+                            </tr>            
+                            <tr>
+                                <th>No. lines at ORWA</th>
+                                <td>{{ od.ORWA_lines }}</td>
+                            </tr>      
+                            </tr>
+                                <th>Notes</th>
+                                <td>{{ od.notes }}</td>
+                            </tr>
+                        </table>
+                        <br>
+                        <table>
+                            <h2>Part details</h2>
+                            <tr>
+                                <th>Part Code</th>
+                                <th>Part_type</th>
+                                <th>Size</th>
+                                <th>Completed by</th>
+                                <th>Completed date</th>
+                                <th>Approved by </th>
+                                <th>Approved date</th>
+                                <th>Problem parts clear?</th>
+                            </tr>
+                            {% for p in pd %}
+                            <tr>
+                                <td><a href="{% url 'ORWAapp:PartDetail' p.id %}">{{ p.part_code }}</a></td>
+                                <td>{{ p.part_type }}</td>
+                                <td>{{ p.size }}</td>
+                                <td>{{ p.completed_by }}</td>
+                                <td>{{ p.completed_date }}</td>
+                                <td>{{ p.approved_by }}</td>
+                                <td>{{ p.approved_date }}</td>
+                                <td>{{ p.problem_parts_cleared }}</td>
+                            </tr>
+                            {% endfor %}
+
+
+
+                        </table>
+                        <br>
+                        <hr class="my-4">
+                    <a class="btn btn-primary btn-lg" role="button" href="{% url 'ORWAapp:AddParts' %}">Add Parts to ORWA</a>
+                    <br>
+                </center>
+                    
+                        <script>document.write('<a class="btn btn-outline-secondary btn-lg" href="' + document.referrer + '">Back</a>');
+                        </script>
+                
+{% endblock %}

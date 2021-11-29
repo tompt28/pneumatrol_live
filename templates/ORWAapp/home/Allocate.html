@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% extends "ORWAapp/base.html" %}
+	{% block body_block %}
+		<title>Allocations</title>
+		<div class="container">
+			<div class="jumbotron">
+			<center>
+			<h1>Allocate The ORWA's</h1>
+			<hr class="my-4">
+				<p class="lead">Hi {{ insert_me }}. See the ORWAS still to do below!.  </p>
+			<hr class="my-4">
+				
+				<table>
+				    <tr>
+				        <th>Order Number</th>
+				        <th>Customer</th>
+				        <th>Entered Date</th>
+				        <th>Order Date</th>
+				        <th>Notes</th>
+				        <th>Paperwork</th>
+				        <th>Allocation</th>
+				    </tr>
+					    {% for od in AT %}
+				    <tr>
+	            		<td><a href="{% url 'ORWAapp:OrderDetail' od.id %}">{{ od.order_number }}</a></td>
+				        <td>{{ od.customer }}</td>
+				        <td>{{ od.entered_date }}</td>
+				        <td>{{ od.order_date }}</td>
+				        <td>{{ od.notes }}</td>
+				        <td><a href="/media/{{ od.paperwork }}" target="_blank">{{ od.order_number }}</a></td>
+				        <td>{{ od.allocated_to }}</td>
+				        <td><a class="btn btn-primary btn-sm" href="{% url 'ORWAapp:Allocatedetail' od.id %}">Allocate</a>
+				    </tr>
+					    
+					    {% endfor %}
+				</table>
+				<hr class="my-4">
+		</center>
+		</div>
+		<hr class="my-4">
+		<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">Back</a>
+		</div>
+	{% endblock %}

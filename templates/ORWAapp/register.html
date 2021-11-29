@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% extends "ORWAapp/base.html" %}
+	{% block body_block %}
+	<title>Register</title>
+		<div class = "container">
+			
+			<div class="jumbotron">
+				<center><h1>Sign up Here </h1>
+				<hr class="my-4">
+
+				{% if registered %}
+					
+					<h2>Thanks for registering </h2>
+
+				{% else %}
+					<h3>complete the form:</h3>
+					<hr class="my-4">
+
+					<form enctype="multipart/form-data" class="" method="POST">
+					{% csrf_token %}
+					<table>
+						{{ user_form.as_table }}
+						{{ profile_form.as_table}}
+					</table>
+					
+					<input type="submit" class = "btn btn-primary btn-lg btn-block" name="" value="Register">
+					</form>
+									
+				{%endif%}
+			</div>
+		<hr class="my-4">
+		
+		<a class="btn btn-primary btn-lg" href="{% url 'index' %}" role="button">Home</a>
+		<a class="btn btn-primary btn-lg" href="{% url 'user_login' %}"role="button">Sign in</a></center>
+		</div>
+	{% endblock %}

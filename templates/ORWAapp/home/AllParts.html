@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% extends "ORWAapp/base.html" %}
+    {% block body_block %}
+        <title>All Part list</title>
+        <div class="container">
+            <center>
+            <div class="jumbotron">
+                <h1>All parts list</h1>
+                <hr class="my-4">
+
+                <p class="lead">A list of all part codes added by users for ORWAS. </p>
+
+                <hr class="my-4">
+                    <table>
+                        <tr>
+                            <th>Part #</th>
+                            <th>Part type</th>
+                            <th>Date started</th>
+                            <th>Date completed</th>
+                            <th>Date approved</th>
+                        </tr>
+                        {% for p in ap %}
+                        <tr>
+                            <td><a href="{% url 'ORWAapp:PartDetail' p.id %}">{{ p.part_code }}</a></td>
+                            <td>{{ p.part_type }}</td>
+                            <td>{{ p.start_date }}</td>
+                            <td>{{ p.completed_date }}</td>
+                            <td>{{ p.approved_date }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+            </div>  
+            <hr class="my-4">
+        <a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">Back</a>
+
+{% endblock %}

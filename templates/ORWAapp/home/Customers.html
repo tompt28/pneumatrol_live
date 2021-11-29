@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% extends "ORWAapp/base.html" %}
+	{% block body_block %}
+		<title>Add Customer </title>
+		<div class="container">
+			<div class="jumbotron">
+				<center>
+
+					<h1>Customers</h1>
+					<hr class="my-4">
+					<centre><p class="lead">Hi {{ insert_me }}. See the customer details below or add new customers.  </p>
+					<hr class="my-4">
+					<table id="customers">
+					    <tr>
+					        <th><strong>ID</strong></th>
+					        <th><strong>Customer Name</strong></th>	  <th><strong>Account Code</strong></th>
+					        <th><strong>Short Name</strong></th>
+					    </tr>
+					    {% for customer in Customers %}
+					    <tr>
+					    	<td>{{ customer.id }}</td>
+					        <td>{{ customer.full_name }}</td>
+					        <td>{{ customer.account_name }}</td>
+					        <td>{{ customer.short_name }}</td>
+					    </tr>
+					    {% endfor %}
+					</table>
+					<hr class="my-4">
+
+					<a class="btn btn-outline-secondary btn-lg" href="{% url 'ORWAapp:NewCustomer' %}" role="button">Add Customer</a>
+					</center>
+
+			<hr class="my-4">
+			<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">Home</a>
+			</div>
+		</div>
+	{% endblock %}

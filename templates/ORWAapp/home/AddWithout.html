@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% extends "ORWAapp/base.html" %}
+	{% block body_block %}
+		<title>Add Part no SO</title>
+		<div class="container">
+			<div class="jumbotron">
+				<center>
+					<h1>Add Part without Sales order</h1>
+						<hr class="my-4">
+						<p class="lead">Hi {{ insert_me }}. Complete the form to add a part without a sales order number.  </p>
+					<hr class="my-4">
+
+					{% if posted %}
+						<h2> Thanks for adding an ORWA </h2>
+						<h3> To add another click here </h3>
+						<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:AddParts' %}" role="button">Add another</a>
+
+
+					{% else %}
+						<form enctype="multipart/form-data" class="" method="POST">
+							{% csrf_token %}
+								<table id="NoSO_Form">
+									{{ NoSO_Form.as_table }}	
+								</table>
+							<br>
+							<input type="submit" class = "btn btn-primary btn-lg" name="" value="Add Part">	
+						</form	>
+					{% endif %}
+
+				</center>
+
+			<hr class="my-4">
+			<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">Back</a>
+			</div>
+		</div>
+	{% endblock %}

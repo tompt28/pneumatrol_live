@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% extends "ORWAapp/base.html" %}
+	{% block body_block %}
+		<title>Add Part Type </title>
+		<div class="container">
+			<div class="jumbotron">
+				<center>
+
+					<h1>Part types</h1>
+					<hr class="my-4">
+					<centre><p class="lead">Hi {{ insert_me }}. Create a new part type to classify ORWAS with See the customer details below or add new customers.  </p>
+					<hr class="my-4">
+						<table id="PartTypes">
+					    <tr>
+					        <th><strong>ID</strong></th>
+					        <th><strong>Name</strong></th>	  
+					        <th><strong>Description</strong></th>
+					    </tr>
+					    {% for parttypes in Parts %}
+					    <tr>
+					    	<td>{{ parttypes.id }}</td>
+					        <td>{{ parttypes.name }}</td>
+					        <td>{{ parttypes.description }}</td>
+					    </tr>
+					    {% endfor %}
+					</table>
+			    	<br>
+					<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:AddType' %}" role="button">Add new part type</a>
+				</center>
+
+			<hr class="my-4">
+			<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">Home</a>
+			</div>
+		</div>
+	{% endblock %}

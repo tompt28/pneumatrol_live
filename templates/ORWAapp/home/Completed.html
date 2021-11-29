@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+{% extends "ORWAapp/base.html" %}
+	{% block body_block %}
+		<title>Completed ORWA's </title>
+		<div class="container">
+			<div class="jumbotron">
+			<center>
+			<h1>All Completed ORWA's</h1>
+			<hr class="my-4">
+				<p class="lead">Hi {{ insert_me }}.This is a list of all orders Completed - Issued and Rejected.  </p>
+			<hr class="my-4">
+				
+				<table>
+					<tr>
+						<th>Issued</th>
+					</tr>
+				    <tr>
+				        <th>Order Number</th>
+				        <th>Customer</th>
+				        <th>Notes</th>
+				        <th>Entered Date</th>
+				        <th>Order Date</th>
+				        <th>Issue Date</th>
+				        <th>Paperwork</th>
+				    </tr>
+
+					    {% for od in issue_data %}
+
+				    <tr>
+	            		<td><a href="{% url 'ORWAapp:OrderDetail' od.id %}">{{ od.order_number }}</a></td>
+				        <td>{{ od.customer }}</td>
+   				        <td>{{ od.notes }}</td>
+				        <td>{{ od.entered_date }}</td>
+				        <td>{{ od.order_date }}</td>
+				        <td>{{ od.issue_date }}</td>
+				        <td><a href="/media/{{ od.paperwork }}" target="_blank">{{ od.order_number }}</a></td>
+
+				    </tr>
+					    {% endfor %}
+				</table>
+
+				<table>
+					<tr>
+						<th>Rejected</th>
+					</tr>
+				    <tr>
+				        <th>Order Number</th>
+				        <th>Customer</th>
+				        <th>Notes</th>
+				        <th>Entered Date</th>
+				        <th>Order Date</th>
+				        <th>Rejected by</th>
+				        <th>Rejected Date</th>
+				        <th>Reject_note</th>
+				        <th>Paperwork</th>
+				    </tr>
+
+					    {% for od in reject_data %}
+
+				    <tr>
+	            		<td><a href="{% url 'ORWAapp:OrderDetail' od.id %}">{{ od.order_number }}</a></td>
+				        <td>{{ od.customer }}</td>
+   				        <td>{{ od.notes }}</td>
+				        <td>{{ od.entered_date }}</td>
+				        <td>{{ od.order_date }}</td>
+				        <td>{{ od.reject_user }}</td>
+				        <td>{{ od.reject_date }}</td>
+				        <td>{{ od.reject_note}}</td>
+				        <td><a href="/media/{{ od.paperwork }}" target="_blank">{{ od.order_number }}</a></td>
+
+				    </tr>
+					    {% endfor %}
+
+
+				</table>
+				<hr class="my-4">
+				<br>
+		</center>
+		</div>
+		<hr class="my-4">
+		<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">Back</a>
+		</div>
+	{% endblock %}

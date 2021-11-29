@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+{% extends "ORWAapp/base.html" %}
+	{% block body_block %}
+		<title>OWRA Home</title>
+		<div class="container">
+			<center>
+			<div class="jumbotron">
+				<h1>Welcome to the ORWA tracker</h1>
+				<h3>Order Recived Waiting Appoval</h3>
+				<hr class="my-4">
+
+				<p class="lead">This Web app will keep track of all incoming orders from sales that require engineering overview. </p>
+
+				<hr class="my-4">
+						
+				<p class="lead"></p>
+				<h1>{{ SAL }}</h1>
+				<h1>{{ SAM }}</h1>
+				<h1>{{ ENG }}</h1>
+				<h1>{{ ENM }}</h1>
+				<br>
+
+				{% if ENG %}
+					<ul class="nav flex-column">
+						<li class ="nav-item">
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:OpenOrders'%}" role="button">Open orders</a>
+						</li>
+							<br>
+						<li>
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:Approve' %}" role="button">Approve Part codes</a>
+						</li>
+							<br>
+						<li>
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:PartTypes' %}" role="button">Part types </a>
+						</li>	
+							<br>
+						<li>
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:Completed' %}" role="button">Completed ORWA's</a>
+						</li>
+							<br>
+						<li>
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:AllParts' %}" role="button">All Parts</a>
+						</li>
+							<br>
+					<ul>
+					
+				{% elif ENM %}
+					<ul class="nav flex-column">
+						<li class ="nav-item">
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:OpenOrders'%}" role="button">Outstanding ORWA's</a>
+						</li>
+						<br>
+						<li class ="nav-item">
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:Allocate'%}" role="button">Allocate ORWA's</a>
+						</li>
+						<br>						
+						<li>
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:Approve'%}" role="button">Approve Part codes</a>
+						</li>
+						<br>
+						<li>
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:Completed' %}" role="button">Completed ORWA's</a>
+						</li>
+					<ul>
+				{% elif SAM %}
+					<ul class="nav flex-column">
+						<li class ="nav-item">
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:NewORWA' %}" role="button">Add ORWA's</a>
+						</li>
+						<br>						
+						<li>
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:Customers' %}" role="button">Customers</a>
+						</li>
+						<br>
+						<li class ="nav-item">
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:OpenOrders' %}" role="button">Outstanding ORWA's</a>
+						</li>
+						<br>						
+						<li>
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:Completed' %}" role="button">Completed ORWA's</a>
+						</li>
+					</ul>
+				{% elif SAL %}
+					<ul class="nav flex-column">
+						<li class ="nav-item">
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:NewORWA' %}" role="button">Add ORWA's</a>
+						</li>
+						<br>						
+						<li>
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:Customers' %}" role="button">Customers</a>
+						</li>
+						<br>
+						<li class ="nav-item">
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:OpenOrders' %}" role="button">Outstanding ORWA's</a>
+						</li>
+						<br>						
+						<li>
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:Completed' %}" role="button">Completed ORWA's</a>
+						</li>
+					</ul>
+					
+				{% endif %}
+			</center>
+			</div>
+		</div>
+{% endblock %}

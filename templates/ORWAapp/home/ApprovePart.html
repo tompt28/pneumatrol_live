@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% extends "ORWAapp/base.html" %}
+	{% block body_block %}
+		<title>Approve partcode</title>
+		<div class="container">
+			<div class="jumbotron">
+				<center>
+					<h1>Approve: {{ pd.part_code }} </h1>
+						<hr class="my-4">
+						<p class="lead">Hi {{ insert_me }}. Complete the form to aprrove added partcodes to open ORWAs</p>
+					<hr class="my-4">
+
+					{% if added %}
+						<h2> Thanks for approving a part on sales order: {{ order_number }} </h2>
+						<h3> To add another click here </h3>
+						<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:NewORWA' %}" role="button">Add another</a>
+
+					{% else %}
+					
+						<form enctype="multipart/form-data" class="" method="POST">
+							{% csrf_token %}
+								<table id="Add parts">
+									{{ my_form.as_table }}	
+							    </tr>			
+								</table>
+							<br>
+							<input type="submit" class = "btn btn-primary btn-lg" name="" value="Add part to Order">	
+						</form	>
+					{% endif %}
+					<br>
+				</center>
+
+			<hr class="my-4">
+			<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">Back</a>
+			</div>
+		</div>
+	{% endblock %}

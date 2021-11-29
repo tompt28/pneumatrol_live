@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% extends "ORWAapp/base.html" %}
+	{% block body_block %}
+		<title>OWRA Tracker</title>
+		<div class="container">
+			<div class="jumbotron">
+				<center><h1>Welcome to Pneumatrol Live</h1>
+				<h3>This is the hub for cross departmental paperwork and colaboration</h3>
+				<hr class="my-4">
+
+				<p class="lead">This website requires you to log in. 
+				Please sign in or sign up below to access tools such as ORWA Tracking and ECN's. </p>
+				<hr class="my-4">
+						
+				<p class="lead"></p>
+		
+				<a class="btn btn-primary btn-lg" href="{% url 'user_login' %}" role="button">Sign in</a>
+
+				<p class="lead"></p>
+
+				<a class="btn btn-primary btn-lg" href="{% url 'register' %}" role="button">Register</a>
+				</center>
+			</div>
+		</div>
+	{% endblock %}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% extends "ORWAapp/base.html" %}
+    {% block body_block %}
+        <title>Order Details </title>
+        <div class="container">
+            <div class="jumbotron">
+                <center>
+                    <h1>Order details: {{ od.order_number }}</h1>
+                    <hr class="my-4">
+                        <p class="lead">Hi {{ insert_me }}. Who do you want to complete the ORWA?</p>
+                        <hr class="my-4">
+
+                        <form enctype="multipart/form-data" class="" method="POST">
+                            {% csrf_token %}
+                            {{ AllocatedToForm.as_p}}
+                            <input type="submit" class = "btn btn-primary btn-lg" name="allocate_to" value="Allocate" action = "{% url 'ORWAapp:Allocate' %}">
+                        </form>
+                    <hr class="my-4">
+                    <br>
+                </center>
+                    
+                        <script>document.write('<a class="btn btn-outline-secondary btn-lg" href="' + document.referrer + '">Back</a>');
+                        </script>
+                
+{% endblock %}

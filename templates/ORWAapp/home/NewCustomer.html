@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+{% extends "ORWAapp/base.html" %}
+	{% block body_block %}
+		<title>Add Customer </title>
+		<div class="container">
+			<div class="jumbotron">
+				<center>
+					{% if added %}
+					
+						<h2> {{ insert_me }} has added new Customer </h2>
+
+						<centre><p class="lead">Hi {{ insert_me }}. Add new customers below.  </p>
+						<hr class="my-4">
+						
+						<form enctype="multipart/form-data" class="" method="POST">
+							
+							{% csrf_token %}
+						
+							<table id="Customer">
+
+								{{ NewCustomerForm.as_table}}			
+							</table>
+
+							<br>
+							<input type="submit" class = "btn btn-primary btn-lg" name="" value="Add Customer">	
+						</form>
+
+					{%else%}
+
+						<h1>Add New Customer</h1>
+						<hr class="my-4">
+						<centre><p class="lead">Hi {{ insert_me }}. Add new customers below.  </p>
+						<hr class="my-4">
+						
+						<form enctype="multipart/form-data" class="" method="POST">
+							
+							{% csrf_token %}
+						
+							<table id="Customer">
+
+								{{ NewCustomerForm.as_table}}			
+							</table>
+
+							<br>
+							<input type="submit" class = "btn btn-primary btn-lg" name="" value="Add Customer">	
+						</form>
+					
+					{% endif %}
+				</center>
+
+			<hr class="my-4">
+			<center><script>document.write('<a class="btn btn-outline-secondary btn-lg" href="' + document.referrer + '">Back to Customer list</a>');
+</script></center>
+			<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">Home</a>
+			</div>
+		</div>
+	{% endblock %}

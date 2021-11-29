@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% extends "ORWAapp/base.html" %}
+	{% block body_block %}
+		<title>Add Order </title>
+		<div class="container">
+			<div class="jumbotron">
+				<center>
+					<h1>Add New Order</h1>
+						<h3>One or more lines to this order needs engineering review!</h3>
+					<hr class="my-4">
+						<p class="lead">Hi {{ insert_me }}. Please add the details of the order below and click Create ORWA.  </p>
+					<hr class="my-4">
+
+					{% if posted %}
+						<h2> Thanks for adding a Sales order: {{ od.sales_order }} </h2>
+						<h3> To add another click here </h3>
+						<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:NewORWA' %}" role="button">Add another</a>
+
+
+					{% else %}
+						<form enctype="multipart/form-data" class="" method="POST">
+							{% csrf_token %}
+								<table id="NewORWAForm">
+									{{ NewORWAForm.as_table }}				
+								</table>
+							<br>
+							<a class="btn btn-outline-secondary btn-lg" href="{% url 'ORWAapp:NewCustomer' %}" role="button">Add Customer</a>
+							<input type="submit" class = "btn btn-primary btn-lg" name="" value="Create ORWA">	
+						</form	>
+					{% endif %}
+				</center>
+
+
+			<hr class="my-4">
+			<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">Home</a>
+			</div>
+		</div>
+	{% endblock %}
