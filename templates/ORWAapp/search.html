@@ -45,7 +45,7 @@
 
 				<table>
 					<tr>
-						<th>Part codes</th>
+						<th><h2>Part codes</h2></th>
 					</tr>
 					<tr>
 						<th>part_code</th>
@@ -60,6 +60,18 @@
 					</tr>
 					<tr>
    					{% for PC in PCresults %}
+                        <td><a href="{% url 'ORWAapp:PartDetail' PC.id %}">{{ PC.part_code }}</a></td>
+						<td>{{ PC.part_type }}</td>
+                        <td><a href="{% url 'ORWAapp:OrderDetail' PC.id %}">{{ PC.sales_order }}</a></td>
+						<td>{{ PC.completed_by }}</td>
+						<td>{{ PC.completed_date }}</td>
+						<td>{{ PC.approved_by }}</td>
+						<td>{{ PC.approved_date }}</td>
+						<td>{{ PC.notes }}</td>
+						<td>{{ PC.size }}</td>
+					</tr>
+					{% endfor %}
+   					{% for PC in SOno %}
                         <td><a href="{% url 'ORWAapp:PartDetail' PC.id %}">{{ PC.part_code }}</a></td>
 						<td>{{ PC.part_type }}</td>
                         <td><a href="{% url 'ORWAapp:OrderDetail' PC.id %}">{{ PC.sales_order }}</a></td>
