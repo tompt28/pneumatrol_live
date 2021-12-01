@@ -25,12 +25,22 @@ MEDIA_DIR = os.path.join(BASE_DIR, "media")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'se!oj=n6ec56e=#8p#3(3sweilvk41=o#mv7@i=qx0)4&w7-1x'
+#SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY','se!oj=n6ec56e=#8p#3(3sweilvk41=o#mv7@i=qx0)4&w7-1x')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+#DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 ALLOWED_HOSTS = ['*',]
 
+#Email details
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#MAIL_HOST = 'smtp.gmail.com'
+#EMAIL_HOST_USER = '<paste your gmail account here>'
+#EMAIL_HOST_PASSWORD = '<paste Google password or app password here>'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 # Application definition
 

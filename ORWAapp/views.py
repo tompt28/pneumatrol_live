@@ -254,19 +254,24 @@ def OpenOrders(request):
     return render(request,'ORWAapp/home/OpenOrders.html',context)
 
 
-def AddParts(request):
+def AddParts(request, order):
     added = False
     existing = False
     user = request.user.username
-    partdata = Parts.objects.all()
-    salesdata = SalesOrder.objects.all()
+    OrderDetail = SalesOrder.objects.get(order_number = order)
+    print(request.user)
 
+    #PartDetail = SalesOrder.objects.filter(issue_date__isnull=True).filter(reject_date__isnull=True)
+    
+    pf = Parts(sales_order = OrderDetail)
 
     if request.method == "POST":
-        add_part_form = AddPartForm(data = request.POST)
+        add_part_form = AddPartForm(data = request.POST, instance=pf)  
 
         if add_part_form.is_valid():
             new = add_part_form.save(commit = False)
+            new.sales_order = OrderDetail
+            new.completed_by = request.user
             new.save()
 
             added = True
@@ -276,15 +281,14 @@ def AddParts(request):
             print(add_part_form.errors)
             existing = True
     else:
-        add_part_form = AddPartForm()
+        add_part_form = AddPartForm(request.POST, instance=pf)
 
     context = {
-    'Order':salesdata,
-    'Part':partdata,
-    'insert_me':user,
-    'AddPartForm':AddPartForm,
-    'added': added,
-    'existing': existing,
+    'insert_me' : user,
+    'order' : order,
+    'AddPartForm' : AddPartForm,
+    'added' : added,
+    'existing' : existing,
     }
     return render(request,'ORWAapp/home/AddParts.html',context)
 
@@ -341,6 +345,7 @@ def ApprovePart(request, Approve_id):
             new = ApprovePartForm(data = request.POST, instance = pd)
             new = approve_part_form.save(commit = False)
             new.approved_date = date.today()
+            new.approved_by = request.user
             new.save()
 
             added = True
@@ -408,6 +413,7 @@ def Reject(request, reject_id):
         if reject_form.is_valid():
 
             new = reject_form.save(commit = False)
+            new.reject_user = request.user
             new.save()
             added = True
             print("Rejected")

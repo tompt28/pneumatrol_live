@@ -64,7 +64,7 @@
                         </table>
                         <br>
                         <hr class="my-4">
-                    <a class="btn btn-primary btn-lg" role="button" href="{% url 'ORWAapp:AddParts' %}">Add Parts to ORWA</a>
+                    <a class="btn btn-primary btn-lg" role="button" href="{% url 'ORWAapp:AddParts' od.order_number %}">Add Parts to {{ od.order_number }}</a>
                     <br>
                 </center>
                     

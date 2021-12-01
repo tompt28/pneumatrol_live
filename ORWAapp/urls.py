@@ -15,7 +15,7 @@ urlpatterns=[
     path('home/NewORWA/', views.NewORWA,name = "NewORWA"),
     path('home/NewCustomer/', views.NewCustomer, name = "NewCustomer"),
     path('home/Customers/', views.Customer, name = "Customers"),
-    path('home/AddParts/', views.AddParts, name = "AddParts"),
+    path('home/AddParts/<order>', views.AddParts, name = "AddParts"),
     path('home/AddType/', views.AddType, name = "AddType"),
     path('home/orders/<int:Order_id>/', views.OrderDetail, name='OrderDetail'),
     path('home/reject/<int:reject_id>/', views.Reject, name='Reject'),
@@ -25,6 +25,5 @@ urlpatterns=[
     path('home/Approve/<int:Approve_id>', views.ApprovePart, name='ApprovePart'),
     path('home/Allocate', views.Allocate, name='Allocate'),
     path('home/Allocate/<int:Allocate_id>', views.AllocateDetail, name='Allocatedetail'),
-    path('Search/',views.searchResults, name = "searchResults")
-
+    #path('Search/',views.searchResults, name = "searchResults"),
 ]

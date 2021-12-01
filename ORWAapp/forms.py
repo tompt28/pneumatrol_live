@@ -50,7 +50,13 @@ class NewORWAForm(forms.ModelForm):
     class Meta():
         model = SalesOrder
         fields ='__all__'
-        exclude = ['issue_date', 'reject_user', 'reject_date', 'reject_note','entered_date','allocated_to']
+        exclude = ['issue_date',
+                'reject_user',
+                'reject_date',
+                'reject_note',
+                'entered_date',
+                'allocated_to',
+                ]
         widgets = {
                 'order_date':DateInput(),
                 }
@@ -98,8 +104,6 @@ class NoSO_Form(forms.ModelForm):
 
 
 
-
-
 class NewCustomerForm(forms.ModelForm):
 
     class Meta():
@@ -135,11 +139,9 @@ class AddPartForm(forms.ModelForm):
     
     class Meta():
         model = Parts
-        fields =['sales_order',
-                'part_code',
+        fields =['part_code',
                 'part_type',
                 'updated_code',
-                'completed_by',
                 'start_date',
                 'problem_parts',
                 'size',
@@ -171,7 +173,7 @@ class ApprovePartForm(forms.ModelForm):
     class Meta():
         model = Parts
         #fields = '__all__'
-        fields =['approved_by','problem_parts_cleared','notes']
+        fields =['problem_parts_cleared','notes']
         widgets = {
                 'approved_date':DateInput(),
                 }
@@ -194,7 +196,7 @@ class RejectForm(forms.ModelForm):
 
     class Meta():
         model = SalesOrder
-        fields = ['reject_user', 'reject_date', 'reject_note',]
+        fields = ['reject_date', 'reject_note',]
         widgets = {
                 'reject_date':DateInput(),
                 }
