@@ -26,3 +26,8 @@ th{
 .nav-link{
 	border-right: solid 1px #ddd;
 }
+
+.error{
+	color: red;
+	fornt-size: 10px;
+}

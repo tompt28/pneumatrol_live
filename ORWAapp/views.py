@@ -64,6 +64,8 @@ def register(request):
 
 def user_login(request):
 
+    NoUser = False
+
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -80,9 +82,10 @@ def user_login(request):
         else:
             print("somebody tried to log in and failed")
             print("Username: {} and password {}".format(username,password))
-            return HttpResponse("invalid login details supplied")
-    else:
-        return render(request,"ORWAapp/login.html",{})
+            NoUser = True
+            #return HttpResponseRedirect(reverse("user_login"))
+    
+    return render(request,"ORWAapp/login.html",{'NoUser':NoUser})
 
 def home(request):
     user_group = request.user.groups.values_list('name',flat = True) # QuerySet Object

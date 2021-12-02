@@ -7,18 +7,37 @@
 			<center><div class="jumbotron">
 				<h1>Please log in! </h1>
 				<hr class="my-4">
-				<form action="{% url 'user_login' %}" class="login" method="POST">
-				{% csrf_token %}
-					<label for="username">Username:</label>
-					<input type="text" name="username" placeholder="enter Username">
-					<label for="password">password:</label>
-					<input type="password" name="password" placeholder="********">
-					<input type="submit" name="" value="Login">
-				</form>
-				<hr class="my-4">
-					<p>Not registered? sign up here!</p>
-					<a class="btn btn-primary btn-lg" href="{% url 'register' %}" role="button">Sign up</a>
-					<a class="btn btn-primary btn-lg" href="{% url 'index' %}" role="button">Home</a>
+
+				{% if NoUser == False %}
+					<form action="{% url 'user_login' %}" class="login" method="POST">
+					{% csrf_token %}
+						<label for="username">Username:</label>
+						<input type="text" name="username" placeholder="enter Username">
+						<label for="password">password:</label>
+						<input type="password" name="password" placeholder="********">
+						<input type="submit" name="" value="Login">
+					</form>
+					<hr class="my-4">
+						<p>Not registered? sign up here!</p>
+						<a class="btn btn-primary btn-lg" href="{% url 'register' %}" role="button">Sign up</a>
+						<a class="btn btn-primary btn-lg" href="{% url 'index' %}" role="button">Home</a>
+				{% else %}
+
+					<form action="{% url 'user_login' %}" class="login" method="POST">
+					{% csrf_token %}
+						<label for="username">Username:</label>
+						<input type="text" name="username" placeholder="enter Username">
+						<label for="password">password:</label>
+						<input type="password" name="password" placeholder="********">
+						<input type="submit" name="" value="Login">
+						<p class="=error"> The user name and pasword combination was incorrect. Please try again.</p>
+					</form>
+					<hr class="my-4">
+						<p>Not registered? sign up here!</p>
+						<a class="btn btn-primary btn-lg" href="{% url 'register' %}" role="button">Sign up</a>
+						<a class="btn btn-primary btn-lg" href="{% url 'index' %}" role="button">Home</a>
+				{% endif %}
+
 			</div></center>
 		</div>
 	{% endblock %}
