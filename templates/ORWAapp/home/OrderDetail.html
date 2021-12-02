@@ -48,7 +48,7 @@
                             </tr>
                             {% for p in pd %}
                             <tr>
-                                <td><a href="{% url 'ORWAapp:PartDetail' p.id %}">{{ p.part_code }}</a></td>
+                                <td><a href="{% url 'ORWAapp:PartDetail' p.part_code %}">{{ p.part_code }}</a></td>
                                 <td>{{ p.part_type }}</td>
                                 <td>{{ p.size }}</td>
                                 <td>{{ p.completed_by }}</td>

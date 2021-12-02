@@ -22,14 +22,14 @@
 				    </tr>
 					    {% for od in AT %}
 				    <tr>
-	            		<td><a href="{% url 'ORWAapp:OrderDetail' od.id %}">{{ od.order_number }}</a></td>
+	            		<td><a href="{% url 'ORWAapp:OrderDetail' od.order_number %}">{{ od.order_number }}</a></td>
 				        <td>{{ od.customer }}</td>
 				        <td>{{ od.entered_date }}</td>
 				        <td>{{ od.order_date }}</td>
 				        <td>{{ od.notes }}</td>
 				        <td><a href="/media/{{ od.paperwork }}" target="_blank">{{ od.order_number }}</a></td>
 				        <td>{{ od.allocated_to }}</td>
-				        <td><a class="btn btn-primary btn-sm" href="{% url 'ORWAapp:Allocatedetail' od.id %}">Allocate</a>
+				        <td><a class="btn btn-primary btn-sm" href="{% url 'ORWAapp:Allocatedetail' od.order_number %}">Allocate</a>
 				    </tr>
 					    
 					    {% endfor %}

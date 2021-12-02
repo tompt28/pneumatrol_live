@@ -11,7 +11,6 @@
 						<hr class="my-4">
 						<table id="Approval">
 						    <tr>
-						        <th><strong>ID</strong></th>
 						        <th><strong>Part Code</strong></th>	  
 						        <th><strong>Sales Order</strong></th>
 						        <th><strong>Completed By</strong></th>
@@ -21,8 +20,7 @@
 						    </tr>
 						    {% for p in Parts %}
 						    <tr>
-						    	<td>{{ p.id }}</td>
-						    	<td><a href="{% url 'ORWAapp:ApprovePart' p.id %}">{{ p.part_code }}</a></td>
+						    	<td><a href="{% url 'ORWAapp:ApprovePart' p.part_code %}">{{ p.part_code }}</a></td>
 						        <td>{{ p.sales_order }}</td>
 						        <td>{{ p.completed_by }}</td>
 						        <td>{{ p.completed_date }}</td>

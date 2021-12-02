@@ -21,7 +21,7 @@
                         </tr>
                         {% for p in ap %}
                         <tr>
-                            <td><a href="{% url 'ORWAapp:PartDetail' p.id %}">{{ p.part_code }}</a></td>
+                            <td><a href="{% url 'ORWAapp:PartDetail' p.part_code %}">{{ p.part_code }}</a></td>
                             <td>{{ p.part_type }}</td>
                             <td>{{ p.start_date }}</td>
                             <td>{{ p.completed_date }}</td>

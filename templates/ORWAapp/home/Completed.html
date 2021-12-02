@@ -27,7 +27,7 @@
 					    {% for od in issue_data %}
 
 				    <tr>
-	            		<td><a href="{% url 'ORWAapp:OrderDetail' od.id %}">{{ od.order_number }}</a></td>
+	            		<td><a href="{% url 'ORWAapp:OrderDetail' od.order_number %}">{{ od.order_number }}</a></td>
 				        <td>{{ od.customer }}</td>
    				        <td>{{ od.notes }}</td>
 				        <td>{{ od.entered_date }}</td>

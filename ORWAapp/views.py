@@ -233,10 +233,9 @@ def Approve(request):
     return render(request,'ORWAapp/home/Approve.html',context)
 
 
-
 def Allocate(request):
     user = request.user.username
-    AT = SalesOrder.objects.filter(allocated_to__isnull = True)
+    AT = SalesOrder.objects.filter(issue_date__isnull = True).filter(allocated_to__isnull = True)
     print()
     context = {
     'AT':AT,
@@ -257,11 +256,10 @@ def OpenOrders(request):
 def AddParts(request, order):
     added = False
     existing = False
+    active = False
     user = request.user.username
     OrderDetail = SalesOrder.objects.get(order_number = order)
     print(request.user)
-
-    #PartDetail = SalesOrder.objects.filter(issue_date__isnull=True).filter(reject_date__isnull=True)
     
     pf = Parts(sales_order = OrderDetail)
 
@@ -318,10 +316,9 @@ def AddType(request):
     return render(request,'ORWAapp/home/AddType.html',context)
 
 
-def ApprovePart(request, Approve_id):
+def ApprovePart(request, part):
     user = request.user.username
-
-    pd = get_object_or_404(Parts, pk = Approve_id)
+    pd = Parts.objects.get(part_code = part)
     so = pd.sales_order
     
     SO = SalesOrder.objects.filter( order_number = so )
@@ -368,8 +365,8 @@ def ApprovePart(request, Approve_id):
     }
     return render(request,'ORWAapp/home/ApprovePart.html',context)
 
-def PartDetail(request, Part_id):
-    p = get_object_or_404(Parts, pk=Part_id)
+def PartDetail(request, part):
+    p = Parts.objects.get(part_code = part)
     context = {
     'p': p
     }
@@ -384,9 +381,9 @@ def AllParts(request):
     }
     return render(request, 'ORWAapp/home/AllParts.html', context)
 
-def OrderDetail(request, Order_id):   
+def OrderDetail(request, order):   
 
-    od = get_object_or_404(SalesOrder, pk=Order_id)
+    od = SalesOrder.objects.get(order_number = order)
     pd = Parts.objects.filter(sales_order = od)
 
 
@@ -399,8 +396,8 @@ def OrderDetail(request, Order_id):
     }
     return render(request, 'ORWAapp/home/OrderDetail.html', context)
 
-def Reject(request, reject_id):
-    od = get_object_or_404(SalesOrder, pk=reject_id)
+def Reject(request, reject):
+    od = SalesOrder.objects.get(order_number = reject)
     print(od)
     user = request.user.username
 
@@ -429,9 +426,9 @@ def Reject(request, reject_id):
     }
     return render(request, 'ORWAapp/home/Rejection.html', context)
 
-def AllocateDetail(request, Allocate_id):
+def AllocateDetail(request, order):
 
-    od = get_object_or_404(SalesOrder, pk=Allocate_id)    
+    od = SalesOrder.objects.get(order_number = order)    
     user = request.user.username
     Allocated = False
 
@@ -457,21 +454,6 @@ def AllocateDetail(request, Allocate_id):
     'insert_me':user,
     }
     return render(request,'ORWAapp/home/Allocatedetail.html',context)
-
-
-def PaperworkDetail(request, paperwork_id):
-
-    pd = get_object_or_404(SalesOrder, pk=paperwork_id)
-    user = request.user.username
-    document = SalesOrder.objects.get(pk=paperwork_id)
-
-    print(document)
-    context = {
-         'insert_me':user,
-         'pd': pd,
-         }
-
-    return render(request, 'ORWAapp/home/Paperwork.html', context)
 
 @login_required
 def searchResults(request):
