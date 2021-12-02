@@ -484,7 +484,6 @@ def searchResults(request):
         if not SOno:
             SOno = None
 
-
     context = {'insert_me':user,
     'SI':SI,
     'SOno':SOno,

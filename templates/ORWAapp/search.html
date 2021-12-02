@@ -29,7 +29,7 @@
 				    </tr>
 				{% for r in ONresults %}
                     <tr>
-                        <td><a href="{% url 'ORWAapp:OrderDetail' r.id %}">{{ r.order_number }}</a></td>
+                        <td><a href="{% url 'ORWAapp:OrderDetail' r.order_number %}">{{ r.order_number }}</a></td>
                         <td>{{ r.customer }}</td>
                         <td>{{ r.entered_date }}</td>
                         <td>{{ r.order_date }}</td>
@@ -62,9 +62,9 @@
 					</tr>
 					<tr>
    					{% for PC in PCresults %}
-                        <td><a href="{% url 'ORWAapp:PartDetail' PC.id %}">{{ PC.part_code }}</a></td>
+                        <td><a href="{% url 'ORWAapp:PartDetail' PC.part_code %}">{{ PC.part_code }}</a></td>
 						<td>{{ PC.part_type }}</td>
-                        <td><a href="{% url 'ORWAapp:OrderDetail' PC.id %}">{{ PC.sales_order }}</a></td>
+                        <td><a href="{% url 'ORWAapp:OrderDetail' PC.sales_order %}">{{ PC.sales_order }}</a></td>
 						<td>{{ PC.completed_by }}</td>
 						<td>{{ PC.completed_date }}</td>
 						<td>{{ PC.approved_by }}</td>
@@ -74,9 +74,9 @@
 					</tr>
 					{% endfor %}
    					{% for PC in SOno %}
-                        <td><a href="{% url 'ORWAapp:PartDetail' PC.id %}">{{ PC.part_code }}</a></td>
+                        <td><a href="{% url 'ORWAapp:PartDetail' PC.part_code %}">{{ PC.part_code }}</a></td>
 						<td>{{ PC.part_type }}</td>
-                        <td><a href="{% url 'ORWAapp:OrderDetail' PC.id %}">{{ PC.sales_order }}</a></td>
+                        <td><a href="{% url 'ORWAapp:OrderDetail' PC.sales_order %}">{{ PC.sales_order }}</a></td>
 						<td>{{ PC.completed_by }}</td>
 						<td>{{ PC.completed_date }}</td>
 						<td>{{ PC.approved_by }}</td>
