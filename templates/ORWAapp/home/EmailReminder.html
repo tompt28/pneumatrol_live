@@ -7,7 +7,8 @@
 			<center>
 			<h1>ORWA's that need work this week</h1>
 			<hr class="my-4">
-				<p class="lead">Hi {{ insert_me }}. See the ORWAS still to do below!.  </p>
+				<p class="lead">Happy Monday! </p>
+					<p class="lead">See the ORWA's still to do below.  </p>
 			<hr class="my-4">
 				
 				<table>
@@ -29,15 +30,10 @@
 				        <td>{{ od.notes }}</td>
 				        <td><a href="/media/{{ od.paperwork }}" target="_blank">{{ od.order_number }}</a></td>
 				        <td>{{ od.allocated_to }}</td>
-				        <td><a class="btn btn-primary btn-sm" href="{% url 'ORWAapp:Reject' od.order_number %}">Reject</a>
 				    </tr>
 					    
 					    {% endfor %}
 				</table>
 				<hr class="my-4">
 		</center>
-		</div>
-		<hr class="my-4">
-		<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">Back</a>
-		</div>
 	{% endblock %}

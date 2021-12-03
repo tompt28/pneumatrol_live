@@ -9,6 +9,10 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User, Group
 from django import template
 from datetime import *
+from django.core import mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.core.mail import EmailMultiAlternatives
 
 # Create your views here.
 def index(request):
@@ -546,10 +550,58 @@ def Reject(request, order):
 
 
 def EmailReminder(request):
-    pass
+    salesdata = SalesOrder.objects.filter(issue_date__isnull=True).filter(reject_date__isnull=True)
+    today = datetime.today().strftime('%A')
+    print(today)
+    userEmails = []
+    for user in User.objects.all():
+        userEmails.append(user.email)
 
-def IssueEmail(request):
-    pass
+    context = {
+    'SalesOrder':salesdata,
+    }
+
+    if today == "Monday":
+        subject = "Outstanding ORWA's"
+        from_email = ""
+        to = userEmails
+        text_content = 'see live.pneumatrol.com'
+        html_content  = render_to_string('ORWAapp/home/EmailReminder.html', context)
+
+        msg = EmailMultiAlternatives(subject, text_content, from_email, userEmails)
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+
+    return render(request,'ORWAapp/home/EmailReminder.html',context)
+
+    
+
+# def IssueEmail(request):
+#     users = User
+#     salesdata = SalesOrder.objects.get()
+
+#     userEmails = []
+#     for user in User.objects.filter(groups__name='SAL'):
+#         userEmails.append(user.email)
+
+#     context = {
+#     'SalesOrder':salesdata,
+#     #'insert_me':user,
+#     }
+
+#     #if today == "Monday":
+#         subject = "Outstanding ORWA's"
+#         from_email = ""
+#         to = userEmails
+#         text_content = 'see live.pneumatrol.com'
+#         html_content  = render_to_string('ORWAapp/home/EmailReminder.html', context)
+
+#         msg = EmailMultiAlternatives(subject, text_content, from_email, userEmails)
+#         msg.attach()
+#         msg.attach_alternative(html_content, "text/html")
+#         msg.send()
+
+#     #return render(request,'ORWAapp/home/EmailReminder.html',context)
 
 
 @login_required

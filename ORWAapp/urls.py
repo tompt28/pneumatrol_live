@@ -26,5 +26,6 @@ urlpatterns=[
     path('home/AllParts/', views.AllParts, name='AllParts'),
     path('home/Allocate', views.Allocate, name='Allocate'),
     path('home/Allocate/<order>', views.AllocateDetail, name='Allocatedetail'),
+    path('home/EmailReminder/',views.EmailReminder, name='EmailReminder'),
     #path('Search/',views.searchResults, name = "searchResults"),
 ]

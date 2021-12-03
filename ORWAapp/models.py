@@ -20,7 +20,7 @@ def update_filename(instance, filename):
 def update_filename_complete(instance, filename):
 	ext = filename.split('.')[-1]
 	path = "completed_orders/"
-	filename = "%s.%s" % (instance.order_number, ext)
+	filename = "%s-done.%s" % (instance.order_number, ext)
 
 	return os.path.join(path,filename)
 
