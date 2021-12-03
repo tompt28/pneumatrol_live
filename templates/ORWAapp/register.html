@@ -18,10 +18,10 @@
 
 					<form enctype="multipart/form-data" class="" method="POST">
 					{% csrf_token %}
-					<table>
+					<center><table>
 						{{ user_form.as_table }}
 						{{ profile_form.as_table}}
-					</table>
+					</table></center>
 					
 					<input type="submit" class = "btn btn-primary btn-lg btn-block" name="" value="Register">
 					</form>

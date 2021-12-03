@@ -55,6 +55,7 @@ class NewORWAForm(forms.ModelForm):
                 'reject_date',
                 'reject_note',
                 'entered_date',
+                'completed_paperwork',
                 'allocated_to',
                 ]
         widgets = {
@@ -89,7 +90,8 @@ class NoSO_Form(forms.ModelForm):
                     'approved_by',
                     'completed_date',
                     'approved_date',
-                    'problem_parts'
+                    'problem_parts',
+                    'completed_paperwork',
                     ]
         widgets = {
                 'start_date':DateInput(),
@@ -208,3 +210,8 @@ class AllocatedToForm(forms.ModelForm):
         model = SalesOrder
         fields = ['allocated_to']
 
+class CompletedPaperworkForm(forms.ModelForm):
+
+    class Meta():
+        model = SalesOrder
+        fields = ['completed_paperwork']

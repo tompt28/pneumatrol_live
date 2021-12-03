@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+	{% block body_block %}
+		<title>Add Paperwork</title>
+		<div class="container">
+			<div class="jumbotron">
+				<center>
+					<h1>Add the Completed paperwork </h1>
+						<hr class="my-4">
+						<p class="lead">Hi {{ insert_me }}. Complete the form to add the completed paperwork to the issued ORWA: {{ od.order_number }}</p>
+					<hr class="my-4">
+
+					{% if added %}
+
+						<h2> Thanks for adding the Paperwork This ORWA is now complete </h2>
+						<br>
+						<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">home</a>
+
+					{% else %}
+					
+						<form enctype="multipart/form-data" method="post">
+							{% csrf_token %}
+								<table id="completedpaperwork">
+									{{ CompletedPaperworkForm.as_table }}	
+							    </tr>			
+								</table>
+							<br>
+							<input type="submit" class = "btn btn-primary btn-lg" name="" value="Add Paperwork">	
+						</form	>
+					{% endif %}
+					<br>
+				</center>
+
+			<hr class="my-4">
+			</div>
+		</div>
+	{% endblock %}

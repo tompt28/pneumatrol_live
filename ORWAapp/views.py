@@ -160,6 +160,17 @@ def Add_Without(request):
         }
     return render(request,'ORWAapp/home/AddWithout.html',context)
 
+
+def Customer(request):
+    user = request.user.username
+    data = Customers.objects.all()
+    context = {
+        'Customers':data,
+        'insert_me':user,
+        }
+    return render(request,'ORWAapp/home/Customers.html',context)
+
+
 def NewCustomer(request):
     user = request.user.username
     added = False
@@ -189,16 +200,6 @@ def NewCustomer(request):
     return render(request,'ORWAapp/home/NewCustomer.html',context)
 
 
-def Customer(request):
-    user = request.user.username
-    data = Customers.objects.all()
-    context = {
-        'Customers':data,
-        'insert_me':user,
-        }
-    return render(request,'ORWAapp/home/Customers.html',context)
-
-
 def PartTypes(request):
     user = request.user.username
     data = PartType.objects.all()
@@ -207,6 +208,7 @@ def PartTypes(request):
         'Parts':data,
         }
     return render(request,'ORWAapp/home/PartTypes.html',context)
+
 
 def Completed(request):
     user = request.user.username
@@ -235,6 +237,66 @@ def Approve(request):
     }
     return render(request,'ORWAapp/home/Approve.html',context)
 
+def ApprovePart(request, part):
+    user = request.user.username
+    pd = Parts.objects.get(part_code = part)
+    so = pd.sales_order
+    SO = SalesOrder.objects.filter( order_number = so )
+    salesorder = SO[0]
+    # lines = so.ORWA_lines
+    # approvecount = [Parts.objects.filter(sales_order = so).filter(approved_by__isnull = True)]
+    # print("ORWA lines:", lines)
+    # print(len(approvecount))
+    # print("Part lines to approve:", approvecount) 
+    # #od = SalesOrder.objects.get(order_number = order)
+    partdata = Parts.objects.filter(sales_order = so)
+    partadded = len(partdata)
+    lines = so.ORWA_lines
+    print("ORWA lines:", lines)
+    print("Part lines:", partadded)
+    approvecount = Parts.objects.filter(sales_order = so).filter(approved_by__isnull = True).count()
+    print("Part lines to approve:", approvecount)
+
+    added = False
+    issued = False
+
+    my_form = ApprovePartForm(instance = pd)
+
+    if request.method == "POST":
+        
+        approve_part_form = ApprovePartForm(data = request.POST, instance = pd)
+
+        if approve_part_form.is_valid():
+
+            new = ApprovePartForm(data = request.POST, instance = pd)
+            new = approve_part_form.save(commit = False)
+            new.approved_date = date.today()
+            new.approved_by = request.user
+            new.save()
+
+            added = True
+            print("added")
+
+            approvecount -= 1 
+            print(approvecount)
+            if approvecount == 0 and lines == partadded:
+                so.issue_date = date.today()
+                so.save()
+                print("ORWA Issued")
+                issued = True
+            else:
+                pass
+                  
+    context = {
+    'insert_me':user,
+    'salesorder':salesorder,
+    'issued': issued,
+    'my_form':my_form,
+    'pd':pd,
+    'added':added,
+    }
+    return render(request,'ORWAapp/home/ApprovePart.html',context)
+
 
 def Allocate(request):
     user = request.user.username
@@ -246,6 +308,36 @@ def Allocate(request):
     }
     return render(request,'ORWAapp/home/Allocate.html',context)
 
+def AllocateDetail(request, order):
+
+    od = SalesOrder.objects.get(order_number = order)    
+    user = request.user.username
+    Allocated = False
+
+    if request.method == "POST":
+        allocate_form  = AllocatedToForm(data = request.POST, instance = od)
+
+        if allocate_form.is_valid():
+            new = allocate_form.save(commit = False)
+            new.save()
+            Allocated = True
+            print("added")
+            return HttpResponseRedirect(reverse("ORWAapp:Allocate"))
+        else:
+            print(allocate_form.errors)
+            
+    else:
+        allocate_form = AllocatedToForm()
+
+    context = {
+    'od':od,
+    'AllocatedToForm':AllocatedToForm,
+    'Allocated':Allocated,
+    'insert_me':user,
+    }
+    return render(request,'ORWAapp/home/Allocatedetail.html',context)
+
+
 def OpenOrders(request):
     user = request.user.username
     salesdata = SalesOrder.objects.filter(issue_date__isnull=True).filter(reject_date__isnull=True)
@@ -255,28 +347,72 @@ def OpenOrders(request):
     }
     return render(request,'ORWAapp/home/OpenOrders.html',context)
 
+def OrderDetail(request, order):
+
+    alladd = False   
+
+    od = SalesOrder.objects.get(order_number = order)
+    pd = Parts.objects.filter(sales_order = od)
+    partadded = len(pd)
+    
+    lines = od.ORWA_lines
+    print("ORWA lines:", lines)
+    print("Part lines:", partadded)
+    approvecount = Parts.objects.filter(sales_order = od).filter(approved_by__isnull = True)
+    print("Part lines to approve:", len(approvecount))
+
+    if lines == partadded:
+        alladd = True
+
+    user = request.user.username
+
+    context = {
+    'alladd':alladd,
+    'insert_me':user,
+    'od': od,
+    'pd':pd
+    }
+    return render(request, 'ORWAapp/home/OrderDetail.html', context)
 
 def AddParts(request, order):
+    
     added = False
     existing = False
-    active = False
+    alladd = False
     user = request.user.username
-    OrderDetail = SalesOrder.objects.get(order_number = order)
-    print(request.user)
+    od = SalesOrder.objects.get(order_number = order)
+    pd = Parts.objects.filter(sales_order = od)
+    partadded = len(pd)
+    lines = od.ORWA_lines
+    print("ORWA lines:", lines)
+    print("Part lines:", partadded)
+    approvecount = Parts.objects.filter(sales_order = od).filter(approved_by__isnull = True)
+    print("Part lines to approve:", len(approvecount))
+
+   
     
-    pf = Parts(sales_order = OrderDetail)
+    pf = Parts(sales_order = od)
 
     if request.method == "POST":
         add_part_form = AddPartForm(data = request.POST, instance=pf)  
 
         if add_part_form.is_valid():
             new = add_part_form.save(commit = False)
-            new.sales_order = OrderDetail
+            new.sales_order = od
             new.completed_by = request.user
             new.save()
 
             added = True
             print("added")
+
+            pd = Parts.objects.filter(sales_order = od)
+            partadded = len(pd)
+            lines = od.ORWA_lines
+            print("ORWA lines:", lines)
+            print("Part lines:", partadded)
+            
+            if lines == partadded:
+                alladd = True 
 
         else:
             print(add_part_form.errors)
@@ -285,6 +421,7 @@ def AddParts(request, order):
         add_part_form = AddPartForm(request.POST, instance=pf)
 
     context = {
+    'alladd':alladd,
     'insert_me' : user,
     'order' : order,
     'AddPartForm' : AddPartForm,
@@ -318,56 +455,6 @@ def AddType(request):
     }
     return render(request,'ORWAapp/home/AddType.html',context)
 
-
-def ApprovePart(request, part):
-    user = request.user.username
-    pd = Parts.objects.get(part_code = part)
-    so = pd.sales_order
-    
-    SO = SalesOrder.objects.filter( order_number = so )
-    lines = so.ORWA_lines
-    print("ORWA lines:", lines)
-
-    approvecount = len([Parts.objects.filter(sales_order = so).filter(approved_by__isnull = True)])
-    print("Part lines to approve:", approvecount) 
-
-    added = False
-    completed = False
-
-    my_form = ApprovePartForm(instance = pd)
-
-    if request.method == "POST":
-        
-        approve_part_form = ApprovePartForm(data = request.POST, instance = pd)
-
-        if approve_part_form.is_valid():
-
-            new = ApprovePartForm(data = request.POST, instance = pd)
-            new = approve_part_form.save(commit = False)
-            new.approved_date = date.today()
-            new.approved_by = request.user
-            new.save()
-
-            added = True
-            print("added")
-
-            approvecount -= 1 
-            print(approvecount)
-            if approvecount == 0:
-
-                so.issue_date = date.today()
-                so.save()
-                print("ORWA Issued")
-                   
-
-    context = {
-    'insert_me':user,
-    'my_form':my_form,
-    'pd':pd,
-    'added':added,
-    }
-    return render(request,'ORWAapp/home/ApprovePart.html',context)
-
 def PartDetail(request, part):
     p = Parts.objects.get(part_code = part)
     context = {
@@ -384,26 +471,51 @@ def AllParts(request):
     }
     return render(request, 'ORWAapp/home/AllParts.html', context)
 
-def OrderDetail(request, order):   
+
+def DonePaperwork(request, order):
 
     od = SalesOrder.objects.get(order_number = order)
-    pd = Parts.objects.filter(sales_order = od)
-
-
+    orderid = od.pk
+    print(orderid)   
     user = request.user.username
+    added = False
+    a = get_object_or_404(SalesOrder,pk=od.id)
+    print(a)
+
+    if request.method == "POST":
+        form  = CompletedPaperworkForm(request.POST, request.FILES, instance = a)
+
+        if form.is_valid():
+            new = form.save(commit = False)
+            new.save()
+
+            added = True
+            print("added")
+            return HttpResponseRedirect(reverse("ORWAapp:Approve"))
+        else:
+            print(CompletedPaperworkForm.errors)
+            
+    else:
+        form = CompletedPaperworkForm(instance = a)
 
     context = {
+    'od':od,
+    'CompletedPaperworkForm':CompletedPaperworkForm,
+    'added':added,
     'insert_me':user,
-    'od': od,
-    'pd':pd
     }
-    return render(request, 'ORWAapp/home/OrderDetail.html', context)
+    return render(request,'ORWAapp/home/DonePaperwork.html',context)
 
-def Reject(request, reject):
-    od = SalesOrder.objects.get(order_number = reject)
+
+def Reject(request, order):
+
+    
+    od = SalesOrder.objects.get(order_number = order)
     print(od)
+    info = SalesOrder.objects.get(pk=od.id)
+    print(info.id)
+    od = get_object_or_404(SalesOrder, pk=info.id)
     user = request.user.username
-
     added = False
 
     if request.method == "POST":
@@ -420,43 +532,25 @@ def Reject(request, reject):
 
         else:
             print(reject_form.errors)
+    else:
+        reject_form= RejectForm()
 
     context = {
     'RejectForm':RejectForm,
+    'info':info,
     'insert_me':user,
     'od': od,
     'added':added,
     }
     return render(request, 'ORWAapp/home/Rejection.html', context)
 
-def AllocateDetail(request, order):
 
-    od = SalesOrder.objects.get(order_number = order)    
-    user = request.user.username
-    Allocated = False
+def EmailReminder(request):
+    pass
 
-    if request.method == "POST":
-        allocate_form  = AllocatedToForm(data = request.POST, instance = od)
+def IssueEmail(request):
+    pass
 
-        if allocate_form.is_valid():
-            new = allocate_form.save(commit = False)
-            new.save()
-            Allocated = True
-            print("added")
-
-        else:
-            print(allocate_form.errors)
-            
-    else:
-        allocate_form = AllocatedToForm()
-
-    context = {
-    'od':od,
-    'AllocatedToForm':AllocatedToForm,
-    'Allocated':Allocated,
-    'insert_me':user,
-    }
-    return render(request,'ORWAapp/home/Allocatedetail.html',context)
 
 @login_required
 def searchResults(request):

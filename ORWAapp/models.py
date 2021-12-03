@@ -17,6 +17,13 @@ def update_filename(instance, filename):
 
 	return os.path.join(path,filename)
 
+def update_filename_complete(instance, filename):
+	ext = filename.split('.')[-1]
+	path = "completed_orders/"
+	filename = "%s.%s" % (instance.order_number, ext)
+
+	return os.path.join(path,filename)
+
 
 class Employee(models.Model):
 
@@ -98,6 +105,9 @@ class SalesOrder(models.Model):
 	notes = models.TextField(blank = True)
 	paperwork = models.FileField(upload_to = update_filename, 
 									blank = False,
+									)
+	completed_paperwork = models.FileField(upload_to = update_filename_complete, 
+									blank = True,
 									)
 	allocated_to = models.ForeignKey(User,
 									on_delete = models.CASCADE,

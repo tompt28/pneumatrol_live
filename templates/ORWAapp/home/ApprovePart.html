@@ -7,13 +7,20 @@
 				<center>
 					<h1>Approve: {{ pd.part_code }} </h1>
 						<hr class="my-4">
-						<p class="lead">Hi {{ insert_me }}. Complete the form to aprrove added partcodes to open ORWAs</p>
+						<p class="lead">Hi {{ insert_me }}. Complete the form to aprrove partcodes to : {{ salesorder }}</p>
 					<hr class="my-4">
 
-					{% if added %}
-						<h2> Thanks for approving a part on sales order: {{ order_number }} </h2>
+					{% if issued %}
+
+						<h2> No more parts are required and the ORWA has been issued: {{ salesorder }} </h2>
+						<h3> Please upload the completed paperwork </h3>
+						<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:DonePaperwork' salesorder %}" role="button">Add Paperwork</a>
+
+
+					{% elif added %}
+						<h2> Thanks for approving a part on sales order: {{ salesorder }} </h2>
 						<h3> To add another click here </h3>
-						<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:NewORWA' %}" role="button">Add another</a>
+						<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:Approve' %}" role="button">Add another</a>
 
 					{% else %}
 					

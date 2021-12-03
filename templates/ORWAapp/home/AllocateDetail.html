@@ -10,10 +10,10 @@
                         <p class="lead">Hi {{ insert_me }}. Who do you want to complete the ORWA?</p>
                         <hr class="my-4">
 
-                        <form enctype="multipart/form-data" class="" method="POST">
+                        <form enctype="multipart/form-data" class="" method="POST" >
                             {% csrf_token %}
                             {{ AllocatedToForm.as_p}}
-                            <input type="submit" class = "btn btn-primary btn-lg" name="allocate_to" value="Allocate" action = "{% url 'ORWAapp:Allocate' %}">
+                            <input type="submit" class = "btn btn-primary btn-lg" name="allocate_to" value="Allocate">
                         </form>
                     <hr class="my-4">
                     <br>

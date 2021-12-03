@@ -36,9 +36,9 @@ ALLOWED_HOSTS = ['*',]
 #Email details
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#MAIL_HOST = 'smtp.gmail.com'
-#EMAIL_HOST_USER = '<paste your gmail account here>'
-#EMAIL_HOST_PASSWORD = '<paste Google password or app password here>'
+MAIL_HOST = 'SERVER.pneumatrol.local'
+EMAIL_HOST_USER = 'orwa@pneumatrol.com'
+EMAIL_HOST_PASSWORD = 'Connect667_'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
