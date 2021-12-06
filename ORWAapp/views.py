@@ -12,7 +12,8 @@ from datetime import *
 from django.core import mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives, send_mail
+from django.conf import settings
 
 # Create your views here.
 def index(request):
@@ -177,30 +178,6 @@ def NewORWA(request):
 
     return render(request,'ORWAapp/home/NewORWA.html',context)
 
-def Add_Without(request):
-    user = request.user.username
-
-    posted = False
-
-    if request.method == "POST":
-        NoSO = NoSO_Form(request.POST)
-        if NoSO.is_valid():
-            NoSO = NoSO.save(commit = False)
-            posted = True
-            NoSO.save()
-        
-        else:
-            print(NoSO.errors)
-    else:   
-        NoSO = NoSO_Form()
-
-    context = {
-        'NoSO_Form':NoSO_Form,
-        'insert_me':user,
-        'posted':posted,
-        }
-    return render(request,'ORWAapp/home/AddWithout.html',context)
-
 
 def Customer(request):
     user = request.user.username
@@ -319,12 +296,14 @@ def ApprovePart(request, part):
             print("added")
 
             approvecount -= 1 
-            print(approvecount)
+            
             if approvecount == 0 and lines == partadded:
                 so.issue_date = date.today()
                 so.save()
                 print("ORWA Issued")
                 issued = True
+
+
             else:
                 pass
                   
@@ -550,7 +529,7 @@ def DonePaperwork(request, order):
 
             added = True
             print("added")
-            return HttpResponseRedirect(reverse("ORWAapp:Approve"))
+
         else:
             print(CompletedPaperworkForm.errors)
             
@@ -605,59 +584,41 @@ def Reject(request, order):
 
 
 def EmailReminder(request):
+
     salesdata = SalesOrder.objects.filter(issue_date__isnull=True).filter(reject_date__isnull=True)
-    today = datetime.today().strftime('%A')
-    print(today)
     userEmails = []
-    #for user in User.objects.all():
-        #userEmails.append(user.email)
+    for user in User.objects.all():
+        userEmails.append(user.email)
 
     context = {
     'SalesOrder':salesdata,
     }
 
-    if today == "Monday":
-        subject = "Outstanding ORWA's"
-        from_email = ""
-        to = ["tomt@pneumatrol.com"]
-        text_content = 'see live.pneumatrol.com'
-        html_content  = render_to_string('ORWAapp/home/EmailReminder.html', context)
+    subject ='Weekly ORWA list'
+    body = "test"
+    sendfrom = settings.EMAIL_HOST_USER
+    to = userEmails
 
-        msg = EmailMultiAlternatives(subject, text_content, from_email, userEmails)
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+    #send_mail(subject,body,sendfrom,to,fail_silently=False,)
+    
+    text_content = 'see live.pneumatrol.com'
+    html_content  = render_to_string('ORWAapp/home/EmailReminder.html', context)
+
+    msg = EmailMultiAlternatives(subject, text_content, sendfrom, to)
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
 
     return render(request,'ORWAapp/home/EmailReminder.html',context)
 
-    
+def IssueEmail(request):
 
-# def IssueEmail(request):
-#     users = User
-#     salesdata = SalesOrder.objects.get()
-
-#     userEmails = []
-#     for user in User.objects.filter(groups__name='SAL'):
-#         userEmails.append(user.email)
-
-#     context = {
-#     'SalesOrder':salesdata,
-#     #'insert_me':user,
-#     }
-
-#     #if today == "Monday":
-#         subject = "Outstanding ORWA's"
-#         from_email = ""
-#         to = userEmails
-#         text_content = 'see live.pneumatrol.com'
-#         html_content  = render_to_string('ORWAapp/home/EmailReminder.html', context)
-
-#         msg = EmailMultiAlternatives(subject, text_content, from_email, userEmails)
-#         msg.attach()
-#         msg.attach_alternative(html_content, "text/html")
-#         msg.send()
-
-#     #return render(request,'ORWAapp/home/EmailReminder.html',context)
-
+    salesdata = SalesOrder.objects.get(order_number = order)
+    order = sales
+    context = {
+    'SalesOrder':salesdata,
+    }
+    return HttpResponseRedirect(reverse('home'))
+    #return render(request,'ORWAapp/home/IssueEmail.html',context)
 
 @login_required
 def searchResults(request):

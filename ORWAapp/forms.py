@@ -76,35 +76,30 @@ class NewORWAForm(forms.ModelForm):
         print(data)
         return data
 
-        
-
-
-class NoSO_Form(forms.ModelForm):
+# class NoSO_Form(forms.ModelForm):
 
     
-    class Meta():
-        model = Parts
-        fields ='__all__'
-        exclude = ['sales_order',
-                    'updated_code',
-                    'approved_by',
-                    'completed_date',
-                    'approved_date',
-                    'problem_parts',
-                    'completed_paperwork',
-                    ]
-        widgets = {
-                'start_date':DateInput(),
-                'completed_date':DateInput(),
-                }
+#     class Meta():
+#         model = Parts
+#         fields ='__all__'
+#         exclude = ['sales_order',
+#                     'updated_code',
+#                     'approved_by',
+#                     'completed_date',
+#                     'approved_date',
+#                     'problem_parts',
+#                     'completed_paperwork',
+#                     ]
+#         widgets = {
+#                 'start_date':DateInput(),
+#                 'completed_date':DateInput(),
+#                 }
     
-    def clean_CD(self):
-        cd = self.cleaned_data.get('completed_date',False)
-        if not self.instance.completed_date == False:
-            cd = datetime.now()
-        return cd 
-
-
+#     def clean_CD(self):
+#         cd = self.cleaned_data.get('completed_date',False)
+#         if not self.instance.completed_date == False:
+#             cd = datetime.now()
+#         return cd 
 
 class NewCustomerForm(forms.ModelForm):
 
@@ -134,6 +129,11 @@ class NewTypeForm(forms.ModelForm):
 
 class AddPartForm(forms.ModelForm):
 
+    Correct_materials = forms.BooleanField(required=True)
+    Correct_Number_of_solenoids = forms.BooleanField(required=True)
+    Correct_materials = forms.BooleanField(required=True)
+    Correct_B2B_flag= forms.BooleanField(required=True)
+
     def __init__(self, *args, **kwargs):
         super(AddPartForm, self).__init__(*args, **kwargs)
         # Making location required
@@ -145,9 +145,11 @@ class AddPartForm(forms.ModelForm):
                 'part_type',
                 'updated_code',
                 'start_date',
-                'problem_parts',
                 'size',
-                'notes']
+                'notes',
+                'problem_parts',
+                ]
+        
         widgets = {
                 'start_date':DateInput(),
                 }
@@ -167,6 +169,12 @@ class AddPartForm(forms.ModelForm):
 
 class ApprovePartForm(forms.ModelForm):
 
+    Correct_materials = forms.BooleanField(required=True)
+    Correct_Number_of_solenoids = forms.BooleanField(required=True)
+    Correct_materials = forms.BooleanField(required=True)
+    Correct_B2B_flag= forms.BooleanField(required=True)
+    
+
     def __init__(self, *args, **kwargs):
         super(ApprovePartForm, self).__init__(*args, **kwargs)
         # Making location required
@@ -175,7 +183,7 @@ class ApprovePartForm(forms.ModelForm):
     class Meta():
         model = Parts
         #fields = '__all__'
-        fields =['problem_parts_cleared','notes']
+        fields =['notes','problem_parts_cleared']
         widgets = {
                 'approved_date':DateInput(),
                 }

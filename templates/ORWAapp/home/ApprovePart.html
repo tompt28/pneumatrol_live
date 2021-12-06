@@ -12,7 +12,7 @@
 
 					{% if issued %}
 
-						<h2> No more parts are required and the ORWA has been issued: {{ salesorder }} </h2>
+						<h2> No more parts are required for {{ salesorder }} and the ORWA has been issued:</h2>
 						<h3> Please upload the completed paperwork </h3>
 						<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:DonePaperwork' salesorder %}" role="button">Add Paperwork</a>
 
@@ -36,9 +36,11 @@
 					{% endif %}
 					<br>
 				</center>
-
 			<hr class="my-4">
+			{% if not added %}
 			<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">Back</a>
+			{% else %}
+			{% endif %}
 			</div>
 		</div>
 	{% endblock %}

@@ -34,14 +34,15 @@ DEBUG = True
 ALLOWED_HOSTS = ['*',]
 
 #Email details
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL = 'orwa@pneumatrol.com'
+SERVER_EMAIL = 'orwa@pneumatrol.com'
 MAIL_HOST = "192.168.0.253"
-EMAIL_HOST_USER = 'orwa@pneumatrol.com'
+EMAIL_HOST_USER = 'pneuamtrol/orwa'
 EMAIL_HOST_PASSWORD = 'Connect667_'
 EMAIL_PORT = 25
 EMAIL_USE_TLS = False
-
 # Application definition
 
 INSTALLED_APPS = [

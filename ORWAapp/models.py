@@ -148,7 +148,7 @@ class Parts(models.Model):
 	approved_date = models.DateField(null=True, blank=True)
 	problem_parts = models.BooleanField(default=False, verbose_name ="Problem parts checked")
 	problem_parts_cleared = models.BooleanField(default = False)
-	notes = models.TextField(blank=True)
+	notes = models.TextField(blank=True, max_length = 256)
 	SMALL = 'S'
 	MEDIUM = "M"
 	LARGE = "L"
