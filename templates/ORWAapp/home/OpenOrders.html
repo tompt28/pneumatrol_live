@@ -10,6 +10,10 @@
 				<p class="lead">Hi {{ insert_me }}. See the ORWAS still to do below!.  </p>
 			<hr class="my-4">
 				
+				{% if noORWA %}
+					<h1> Well done! There are no ORWA's to complete. </h1>
+				{% else %}
+					
 				<table>
 				    <tr>
 				        <th>Order Number</th>
@@ -31,9 +35,11 @@
 				        <td>{{ od.allocated_to }}</td>
 				        <td><a class="btn btn-primary btn-sm" href="{% url 'ORWAapp:Reject' od.order_number %}">Reject</a>
 				    </tr>
-					    
 					    {% endfor %}
 				</table>
+
+				
+				{% endif %}
 				<hr class="my-4">
 		</center>
 		</div>

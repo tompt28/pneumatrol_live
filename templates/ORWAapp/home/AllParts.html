@@ -3,14 +3,15 @@
     {% block body_block %}
         <title>All Part list</title>
         <div class="container">
-            <center>
+            
             <div class="jumbotron">
+                <center>
                 <h1>All parts list</h1>
                 <hr class="my-4">
-
                 <p class="lead">A list of all part codes added by users for ORWAS. </p>
-
                 <hr class="my-4">
+            </center>
+                <a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">Back</a>
                     <table>
                         <tr>
                             <th>Part #</th>
@@ -30,6 +31,7 @@
                         {% endfor %}
                     </table>
             </div>  
+        </center>
             <hr class="my-4">
         <a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">Back</a>
 

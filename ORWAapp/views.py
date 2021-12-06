@@ -79,7 +79,7 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request,user)
-                return HttpResponseRedirect(reverse("ORWAapp:home"))
+                return HttpResponseRedirect(reverse("HomeTopLevel"))
     
             else:
                 return HttpResponse("Account not active")
@@ -87,29 +87,66 @@ def user_login(request):
             print("somebody tried to log in and failed")
             print("Username: {} and password {}".format(username,password))
             NoUser = True
-            #return HttpResponseRedirect(reverse("user_login"))
+
+    context = {
+            'NoUser':NoUser
+             }
     
-    return render(request,"ORWAapp/login.html",{'NoUser':NoUser})
+    return render(request,"ORWAapp/login.html",context)
+
+def HomeTopLevel(request):
+    username = request.user.username
+    
+    user_group = request.user.groups.values_list('name',flat = True) # QuerySet Object
+    user_group_as_list = list(user_group)   #QuerySet to `list`
+    DEPT = user_group_as_list[0]
+    if user_group_as_list[0] == "ENG":
+        role_dict = {'ENG':"Welcome to the Engineering toolbox"}
+
+    elif user_group_as_list[0] == "ENM":
+        role_dict = {'ENM':"Welcome to the Engineering manager toolbox!"}
+
+    elif user_group_as_list[0] == "SAL":
+        role_dict = {'SAL':"Welcome to the Sales toolbox!"}
+
+    elif user_group_as_list[0] == "SAM":
+        role_dict = {'SAM':"Welcome to the Sales Manager toolbox!"}
+    else:
+        print("NO ROLE")
+
+
+    context = {
+        'username':username,
+        'DEPT':DEPT
+        }
+    context = {**context, **role_dict}
+
+    return render(request,'HomeTopLevel.html', context)
 
 def home(request):
+
+    username = request.user.username
     user_group = request.user.groups.values_list('name',flat = True) # QuerySet Object
     user_group_as_list = list(user_group)   #QuerySet to `list`
 
     if user_group_as_list[0] == "ENG":
-        role_dict = {'ENG':"Welcome to the Engineering homepage!"}
+        role_dict = {'ENG':"Welcome to the Engineering ORWA homepage"}
 
     elif user_group_as_list[0] == "ENM":
-        role_dict = {'ENM':"Welcome to the Engineering manager homepage!"}
+        role_dict = {'ENM':"Welcome to the Engineering manager ORWA homepage!"}
 
     elif user_group_as_list[0] == "SAL":
-        role_dict = {'SAL':"Welcome to the Sales Homepage!"}
+        role_dict = {'SAL':"Welcome to the Sales ORWA Homepage!"}
 
     elif user_group_as_list[0] == "SAM":
-        role_dict = {'SAM':"Welcome to the Sales Manager homepage!"}
+        role_dict = {'SAM':"Welcome to the Sales Manager ORWA homepage!"}
     else:
         print("NO ROLE")
 
-    return render(request, 'ORWAapp/home.html', context = role_dict)
+    context = {'username':username}
+    context = {**context, **role_dict}
+    
+    return render(request, 'ORWAapp/home.html', context)
 
 def NewORWA(request):
 
@@ -343,17 +380,33 @@ def AllocateDetail(request, order):
 
 
 def OpenOrders(request):
+
     user = request.user.username
+    noORWA = False
+    
     salesdata = SalesOrder.objects.filter(issue_date__isnull=True).filter(reject_date__isnull=True)
+    if not salesdata:
+        noORWA = True
+    
     context = {
+    'noORWA': noORWA,
     'SalesOrder':salesdata,
     'insert_me':user,
     }
+
     return render(request,'ORWAapp/home/OpenOrders.html',context)
 
 def OrderDetail(request, order):
-
+ 
+    user = request.user.username
+    user_group = request.user.groups.values_list('name',flat = True) # QuerySet Object
+    user_group_as_list = list(user_group)   #QuerySet to `list`
+    DEPT = user_group_as_list[0]
     alladd = False   
+    edit = False
+
+    if DEPT == "ENG" or DEPT == "ENM":
+        edit = True
 
     od = SalesOrder.objects.get(order_number = order)
     pd = Parts.objects.filter(sales_order = od)
@@ -368,13 +421,12 @@ def OrderDetail(request, order):
     if lines == partadded:
         alladd = True
 
-    user = request.user.username
-
     context = {
     'alladd':alladd,
     'insert_me':user,
     'od': od,
-    'pd':pd
+    'pd':pd,
+    'edit': edit,
     }
     return render(request, 'ORWAapp/home/OrderDetail.html', context)
 
@@ -461,8 +513,11 @@ def AddType(request):
 
 def PartDetail(request, part):
     p = Parts.objects.get(part_code = part)
+    SO = SalesOrder.objects.get(order_number = p.sales_order)
+    
     context = {
-    'p': p
+    'p': p,
+    'SO': SO
     }
     return render(request, 'ORWAapp/home/PartDetail.html', context)
 
@@ -554,8 +609,8 @@ def EmailReminder(request):
     today = datetime.today().strftime('%A')
     print(today)
     userEmails = []
-    for user in User.objects.all():
-        userEmails.append(user.email)
+    #for user in User.objects.all():
+        #userEmails.append(user.email)
 
     context = {
     'SalesOrder':salesdata,
@@ -564,7 +619,7 @@ def EmailReminder(request):
     if today == "Monday":
         subject = "Outstanding ORWA's"
         from_email = ""
-        to = userEmails
+        to = ["tomt@pneumatrol.com"]
         text_content = 'see live.pneumatrol.com'
         html_content  = render_to_string('ORWAapp/home/EmailReminder.html', context)
 

@@ -67,9 +67,13 @@
 
                         </table>
                         <br>
-                {% if not alladd %}
-                        <hr class="my-4">
-                    <a class="btn btn-primary btn-lg" role="button" href="{% url 'ORWAapp:AddParts' od.order_number %}">Add Parts to {{ od.order_number }}</a>
+                {% if alladd %}
+                    <hr class="my-4">
+                        <a class="btn btn-secondary btn-lg" role="button" aria-disabled="true">Add Parts to {{ od.order_number }} </a>
+                    <br>
+                {% elif edit %}
+                    <hr class="my-4">
+                        <a class="btn btn-primary btn-lg" role="button" href="{% url 'ORWAapp:AddParts' od.order_number %}">Add Parts to {{ od.order_number }}</a>
                     <br>
                 {% else %}
                     <a class="btn btn-secondary btn-lg" role="button" aria-disabled="true">Add Parts to {{ od.order_number }} </a>

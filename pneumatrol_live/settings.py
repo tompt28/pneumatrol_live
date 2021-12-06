@@ -36,11 +36,11 @@ ALLOWED_HOSTS = ['*',]
 #Email details
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-MAIL_HOST = 'server.pneumatrol.local'
+MAIL_HOST = "192.168.0.253"
 EMAIL_HOST_USER = 'orwa@pneumatrol.com'
 EMAIL_HOST_PASSWORD = 'Connect667_'
 EMAIL_PORT = 25
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = False
 
 # Application definition
 

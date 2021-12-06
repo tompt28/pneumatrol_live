@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+	{% block body_block %}
+		<title>Home</title>
+		<div class="container">
+			<center>
+			<div class="jumbotron">
+				<h1>Welcome to Pneumatrol Live </h1>
+				<hr class="my-4">
+
+				<p class="lead">{{ username }} you're a member of : {{ DEPT }}  and have acces to the below tools</p>
+
+				<hr class="my-4">
+						
+				<p class="lead"></p>
+				<h1>{{ SAL }}</h1>
+				<h1>{{ SAM }}</h1>
+				<h1>{{ ENG }}</h1>
+				<h1>{{ ENM }}</h1>
+				<br>
+
+				{% if ENG %}
+					<ul class="nav flex-column">
+						<li class ="nav-item">
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:home'%}" role="button">ORWA's</a>
+						</li>
+							<br>
+						<li class ="nav-item">
+							<a class="btn btn-outline-secondary btn-block" disabled>ECN's</a>
+						</li>
+							<br>
+						<li class ="nav-item">
+							<a class="btn btn-outline-secondary btn-block" disabled>Engineering Tasks</a>
+						</li>
+							<br>
+						<li class ="nav-item">
+							<a class="btn btn-outline-secondary btn-block" disabled>Drawing control</a>
+						</li>
+							<br>
+					<ul>
+					
+				{% elif ENM %}
+					<ul class="nav flex-column">
+						<li class ="nav-item">
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:home'%}" role="button">ORWA's</a>
+						</li>
+							<br>
+						<li class ="nav-item">
+							<a class="btn btn-outline-secondary btn-block" disabled>ECN's</a>
+						</li>
+							<br>
+						<li class ="nav-item">
+							<a class="btn btn-outline-secondary btn-block" disabled>Engineering Tasks</a>
+						</li>
+							<br>
+						<li class ="nav-item">
+							<a class="btn btn-outline-secondary btn-block" disabled>Drawing control</a>
+						</li>
+							<br>
+					<ul>
+				{% elif SAM %}
+					<ul class="nav flex-column">
+						<li class ="nav-item">
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:home'%}" role="button">ORWA's</a>
+						</li>
+							<br>
+						<li class ="nav-item">
+							<a class="btn btn-outline-secondary btn-block" disabled>ECN's</a>
+						</li>
+							<br>
+					<ul>
+				{% elif SAL %}
+					<ul class="nav flex-column">
+						<li class ="nav-item">
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:home'%}" role="button">ORWA's</a>
+						</li>
+							<br>
+						<li class ="nav-item">
+							<a class="btn btn-outline-secondary btn-block" disabled>ECN's</a>
+						</li>
+							<br>
+					<ul>
+				{% endif %}
+			</center>
+			</div>
+		</div>
+{% endblock %}

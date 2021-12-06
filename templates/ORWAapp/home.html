@@ -3,8 +3,9 @@
 	{% block body_block %}
 		<title>OWRA Home</title>
 		<div class="container">
-			<center>
+			
 			<div class="jumbotron">
+				<center>
 				<h1>Welcome to the ORWA tracker</h1>
 				<h3>Order Recived Waiting Appoval</h3>
 				<hr class="my-4">
@@ -42,7 +43,7 @@
 							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:AllParts' %}" role="button">All Parts</a>
 						</li>
 							<br>
-					<ul>
+					</ul>
 					
 				{% elif ENM %}
 					<ul class="nav flex-column">
@@ -61,7 +62,7 @@
 						<li>
 							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:Completed' %}" role="button">Completed ORWA's</a>
 						</li>
-					<ul>
+					</ul>
 				{% elif SAM %}
 					<ul class="nav flex-column">
 						<li class ="nav-item">
@@ -100,7 +101,11 @@
 					</ul>
 					
 				{% endif %}
-			</center>
+				</center>
+				<hr class="my-4">	
+				<a class="btn btn-info btn-lg" href="{% url 'HomeTopLevel' %}" role="button">Back To the ToolBox</a>
+				</div>
+				</div>
 			</div>
 		</div>
 {% endblock %}

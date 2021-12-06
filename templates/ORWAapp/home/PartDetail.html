@@ -13,7 +13,12 @@
                     <tr>
                         <th>Sales order:</th>
                         <td></td>
-                        <td>{{ p.sales_order.order_number }} ({{ p.sales_order.customer.short_name }})</td>
+                        <td><a href="{% url 'ORWAapp:OrderDetail' SO.order_number %}"> {{ p.sales_order.order_number }}</a></td>
+                    </tr>
+                    <tr>
+                        <th>Customer</th>
+                        <td></td>
+                        <td>{{ p.sales_order.customer.short_name }}</td>
                     </tr>
                     <tr>
                         <th>Part type:</th>
