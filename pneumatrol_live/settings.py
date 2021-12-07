@@ -34,8 +34,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['*',]
 
 #Email details
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = 'orwa@pneumatrol.com'
 SERVER_EMAIL = 'orwa@pneumatrol.com'
 MAIL_HOST = "192.168.0.253"

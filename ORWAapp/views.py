@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from ORWAapp.forms import *
 from django.db.models import Q
+from ORWAapp.emails import * 
 from ORWAapp.models import Customers, SalesOrder, Parts, PartType
 from django.http import Http404, HttpResponseRedirect,HttpResponse,FileResponse
 from django.urls import reverse
@@ -596,7 +597,7 @@ def EmailReminder(request):
 
     subject ='Weekly ORWA list'
     sendfrom = settings.EMAIL_HOST_USER
-    to = userEmails
+    to = ['tomt@pneumatrol.com']
 
     #send_mail(subject,body,sendfrom,to,fail_silently=False,)
     
@@ -623,14 +624,14 @@ def IssueEmail(request, order):
 
     subject ="Issued ORWA :",order
     sendfrom = settings.EMAIL_HOST_USER
-    
+    to = ['tomt@pneumatrol.com']
 
     #send_mail(subject,body,sendfrom,to,fail_silently=False,)
     
     text_content = 'Order issued. See pneumatrol live to view'
     html_content  = render_to_string('ORWAapp/home/IssueEmail.html', context)
 
-    msg = EmailMultiAlternatives(subject, text_content, sendfrom, userEmails)
+    msg = EmailMultiAlternatives(subject, text_content, sendfrom, to)
     msg.attach_alternative(html_content, "text/html")
     msg.send()
 
