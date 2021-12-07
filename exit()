@@ -1,0 +1,138 @@
+[33mcommit c7d44211c402e7ba4c9976de2fdfbe7d8afc8970[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Tue Dec 7 12:39:01 2021 +0000
+
+    email integration
+
+[33mcommit e6f90bfaf3630a41508436047fe96d606fdd8107[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Tue Dec 7 11:58:01 2021 +0000
+
+    email tests smtp backend
+
+[33mcommit cccab5fc09acb91487422aca50f910e3782c966f[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Tue Dec 7 11:17:30 2021 +0000
+
+    Issue emails active
+
+[33mcommit 16ba4be58ad3050b5e188f236d06432f479a84ef[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Tue Dec 7 11:02:01 2021 +0000
+
+    email smtp testing
+
+[33mcommit a255734f28739a70407e91d15cbb4d34ec5233df[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Tue Dec 7 10:58:09 2021 +0000
+
+    email tests smtp backend
+
+[33mcommit 8968ab322439286a92a270e6ce0a72a2859f27d7[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Tue Dec 7 09:13:20 2021 +0000
+
+    db tests delete
+
+[33mcommit f0f81ba36dc2107bbcba6a1cfdbfb64f3e70928f[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Tue Dec 7 09:08:47 2021 +0000
+
+    Issue emails active
+
+[33mcommit 063e658f62386e5a5b63d6383e654d3d4f9b2b18[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Mon Dec 6 16:58:55 2021 +0000
+
+    email integration
+
+[33mcommit 43190f05c6401d9514730727ac0ebbe6d5f4ba87[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Mon Dec 6 12:33:30 2021 +0000
+
+    log in to generic home page to open app specific + only eng can add parts
+
+[33mcommit 33f3c97532216a60a121c1c0624d815879d3abac[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Fri Dec 3 12:52:31 2021 +0000
+
+    part issuing and completed ORWA paperwork + add count vs orwa line
+
+[33mcommit 82f2517f16c9b60832379ac1a631e9f4058f956b[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Fri Dec 3 10:35:41 2021 +0000
+
+    part issuing and completed ORWA paperwork + add count vs orwa lines
+
+[33mcommit a640f65ea6f2e954c72f877ea6cf8eee2c1433d4[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Thu Dec 2 12:30:31 2021 +0000
+
+    User name / password error message
+
+[33mcommit 0828ef423fd995f98dcf79c5800e30d24376f85e[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Thu Dec 2 11:46:24 2021 +0000
+
+    User name / password error message
+
+[33mcommit 755dce19e1d184b25d401447372505c12f638b3d[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Thu Dec 2 11:26:43 2021 +0000
+
+    Search bug fix
+
+[33mcommit 37e8575ba3138282392a58e4d52303c3e74d5cd9[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Thu Dec 2 10:09:57 2021 +0000
+
+    Updated URL's to show Sales orders and partcodes to increase usability
+
+[33mcommit 60c171e4d40edc5f0b40adeb08ce8bc620fd689d[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Wed Dec 1 16:55:14 2021 +0000
+
+    updated add parts page removal of add part deatils added auto completion of forms for user names
+
+[33mcommit d15136adbcddab0c3631072a4389f5c5683b0690[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Tue Nov 30 12:22:56 2021 +0000
+
+    Base html template moved to top level
+
+[33mcommit ab8ffb037240b88a8a6a41b6ba423bb60eeee867[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Tue Nov 30 10:03:02 2021 +0000
+
+    format tidy of search template
+
+[33mcommit 80e16d0336e11c80670e595e9f05ed95f49b28ca[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Tue Nov 30 09:59:33 2021 +0000
+
+    update of static file handeling and search functions
+
+[33mcommit 87d8c675cc845bb66092d0815905d774394ec567[m
+Merge: 55a5ed2 806695a
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Mon Nov 29 16:28:34 2021 +0000
+
+    Merge branch 'master' of https://github.com/tompt28/pneumatrol_live
+
+[33mcommit 55a5ed23285f11b0d346122a5d7d9996d8ce0252[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Mon Nov 29 16:27:15 2021 +0000
+
+    updated README
+
+[33mcommit 806695a30646533548bcccb9ed7b14db899b7527[m
+Author: tompt28 <92324233+tompt28@users.noreply.github.com>
+Date:   Mon Nov 29 16:19:23 2021 +0000
+
+    Update README.md
+
+[33mcommit 0d5ba93402d397183864b6dc34385c914e6c2a39[m
+Author: tompt28 <tom_thornber@yahoo.co.uk>
+Date:   Mon Nov 29 16:03:48 2021 +0000
+
+    First release of Pneumatrol Live webapp
