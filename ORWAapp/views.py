@@ -595,7 +595,6 @@ def EmailReminder(request):
     }
 
     subject ='Weekly ORWA list'
-    body = "test"
     sendfrom = settings.EMAIL_HOST_USER
     to = userEmails
 
@@ -610,14 +609,32 @@ def EmailReminder(request):
 
     return render(request,'ORWAapp/home/EmailReminder.html',context)
 
-def IssueEmail(request):
+def IssueEmail(request, order):
 
     salesdata = SalesOrder.objects.get(order_number = order)
-    order = sales
+    
+    userEmails = []
+    for user in User.objects.all():
+        userEmails.append(user.email)
+    
     context = {
-    'SalesOrder':salesdata,
+    'salesdata':salesdata,
     }
-    return HttpResponseRedirect(reverse('home'))
+
+    subject ="Issued ORWA :",order
+    sendfrom = settings.EMAIL_HOST_USER
+    
+
+    #send_mail(subject,body,sendfrom,to,fail_silently=False,)
+    
+    text_content = 'Order issued. See pneumatrol live to view'
+    html_content  = render_to_string('ORWAapp/home/IssueEmail.html', context)
+
+    msg = EmailMultiAlternatives(subject, text_content, sendfrom, userEmails)
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
+
+    return HttpResponseRedirect(reverse('ORWAapp:home'))
     #return render(request,'ORWAapp/home/IssueEmail.html',context)
 
 @login_required

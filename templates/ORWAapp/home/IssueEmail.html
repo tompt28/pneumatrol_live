@@ -5,10 +5,10 @@
 		<div class="container">
 			<div class="jumbotron">
 			<center>
-			<h1>Issued ORWA : {{ order }}</h1>
+			<h1>Issued ORWA : {{ salesdata.order_number }}</h1>
 			<hr class="my-4">
-				<p class="lead">Hi Sales Team </p>
-					<p class="lead">Engineering have processed and issued the following orwa.  </p>
+				<h2>Hi Sales Team </h2>
+					<p class="lead">Engineering have completed and issued the following ORWA.  </p>
 			<hr class="my-4">
 				
 				<table>
@@ -21,19 +21,16 @@
 				        <th>Paperwork</th>
 				        <th>Allocation</th>
 				    </tr>
-					    {% for od in SalesOrder %}
 				    <tr>
-	            		<td>{{ od.order_number }}</td>
-				        <td>{{ od.customer }}</td>
-				        <td>{{ od.entered_date }}</td>
-				        <td>{{ od.order_date }}</td>
-				        <td>{{ od.notes }}</td>
-				        <td><a href="/media/{{ od.paperwork }}" target="_blank">{{ od.order_number }}</a></td>
-				        <td>{{ od.allocated_to }}</td>
-				    </tr>
-					    
-					    {% endfor %}
+	            		<td>{{ salesdata.order_number }}</td>
+				        <td>{{ salesdata.customer }}</td>
+				        <td>{{ salesdata.entered_date }}</td>
+				        <td>{{ salesdata.order_date }}</td>
+				        <td>{{ salesdata.notes }}</td>
+				        <td><a href="/media/{{ salesdata.completed_paperwork }}" target="_blank">{{ salesdata.order_number }}.pdf</a></td>
+				        <td>{{ salesdata.allocated_to }}</td>
+				    </tr>  
 				</table>
-				<hr class="my-4">
+			<hr class="my-4">
 		</center>
 	{% endblock %}
