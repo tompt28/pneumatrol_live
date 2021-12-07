@@ -36,34 +36,3 @@ def EmailReminder(request):
 
     return HttpResponseRedirect(reverse('ORWAapp:home'))
     #return render(request,'ORWAapp/home/EmailReminder.html',context)
-
-def IssueEmail(request, order):
-
-    salesdata = SalesOrder.objects.get(order_number = order)
-    
-    userEmails = []
-    for user in User.objects.all():
-        userEmails.append(user.email)
-    
-    context = {
-    'salesdata':salesdata,
-    }
-
-    subject ="Issued ORWA :",order
-    sendfrom = settings.EMAIL_HOST_USER
-    
-
-    #send_mail(subject,body,sendfrom,to,fail_silently=False,)
-    
-    text_content = 'Order issued. See pneumatrol live to view'
-    html_content  = render_to_string('ORWAapp/home/IssueEmail.html', context)
-
-    msg = EmailMultiAlternatives(subject, text_content, sendfrom, userEmails)
-    msg.attach_alternative(html_content, "text/html")
-    msg.send()
-
-    return HttpResponseRedirect(reverse('ORWAapp:home'))
-    #return render(request,'ORWAapp/home/IssueEmail.html',context)
-
-if __name__ == '__main__':
-    EmailReminder(request)

@@ -584,31 +584,31 @@ def Reject(request, order):
     return render(request, 'ORWAapp/home/Rejection.html', context)
 
 
-def EmailReminder(request):
+# def EmailReminder(request):
 
-    salesdata = SalesOrder.objects.filter(issue_date__isnull=True).filter(reject_date__isnull=True)
-    userEmails = []
-    for user in User.objects.all():
-        userEmails.append(user.email)
+#     salesdata = SalesOrder.objects.filter(issue_date__isnull=True).filter(reject_date__isnull=True)
+#     userEmails = []
+#     for user in User.objects.all():
+#         userEmails.append(user.email)
 
-    context = {
-    'SalesOrder':salesdata,
-    }
+#     context = {
+#     'SalesOrder':salesdata,
+#     }
 
-    subject ='Weekly ORWA list'
-    sendfrom = settings.EMAIL_HOST_USER
-    to = ['tomt@pneumatrol.com']
+#     subject ='Weekly ORWA list'
+#     sendfrom = settings.EMAIL_HOST_USER
+#     to = ['tomt@pneumatrol.com']
 
-    #send_mail(subject,body,sendfrom,to,fail_silently=False,)
+#     #send_mail(subject,body,sendfrom,to,fail_silently=False,)
     
-    text_content = 'see live.pneumatrol.com'
-    html_content  = render_to_string('ORWAapp/home/EmailReminder.html', context)
+#     text_content = 'see live.pneumatrol.com'
+#     html_content  = render_to_string('ORWAapp/home/EmailReminder.html', context)
 
-    msg = EmailMultiAlternatives(subject, text_content, sendfrom, to)
-    msg.attach_alternative(html_content, "text/html")
-    msg.send()
-
-    return render(request,'ORWAapp/home/EmailReminder.html',context)
+#     msg = EmailMultiAlternatives(subject, text_content, sendfrom, to)
+#     msg.attach_alternative(html_content, "text/html")
+#     msg.send()
+#     return HttpResponseRedirect(reverse('ORWAapp:home'))
+#     #return render(request,'ORWAapp/home/EmailReminder.html',context)
 
 def IssueEmail(request, order):
 
