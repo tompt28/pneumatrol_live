@@ -7,17 +7,17 @@
 				<center>
 					<h1>Add Parts to Sales orders</h1>
 						<hr class="my-4">
-						<p class="lead">Hi {{ insert_me }}. Complete the form to add a partcode to  ORWA : {{ order }}</p>
+						<p class="lead">Hi {{ insert_me }}. Complete the form to add a partcode to ORWA : {{ order }}</p>
 					<hr class="my-4">
 
 					{% if alladd %}
-						<h2> Thanks for adding an Part to sales order {{ order_number }} </h2>
+						<h2> Thanks for adding a Part to sales order {{ order_number }} </h2>
 						<h3> There are no more parts to add! </h3>
 						<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:OpenOrders'%}" role="button">Back to Open Orders</a>
 						<br>
 
 					{% elif added %}
-						<h2> Thanks for adding an Part to sales order {{ order_number }} </h2>
+						<h2> Thanks for adding a Part to sales order {{ order_number }} </h2>
 						<h3> To add another click here </h3>
 						<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:AddParts' order %}" role="button">Add another</a>
 						<br>

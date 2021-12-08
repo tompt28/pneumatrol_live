@@ -595,7 +595,6 @@ def EmailReminder(request):
 
     salesdata = SalesOrder.objects.filter(issue_date__isnull=True).filter(reject_date__isnull=True)
     
-        
     context = {
     'SalesOrder':salesdata,
     }
@@ -618,7 +617,7 @@ def IssueEmail(request, order):
     for user in sendreminder:
         finduser = User.objects.get(username = user)
         emailaddress = finduser.email
-        emailto.append(emailaddress)
+        issueEmails.append(emailaddress)
 
     contextdict = {
     'salesdata':salesdata,
