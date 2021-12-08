@@ -7,7 +7,9 @@ from django.core import mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.mail import EmailMultiAlternatives, send_mail
-from django.conf import settings
+import smtplib, ssl, email
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 
 class Command(BaseCommand):
@@ -15,25 +17,63 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         
+        SERVER_EMAIL = 'ORWA.Tracker@gmail.com'
+        MAIL_HOST ="smtp.gmail.com"
+        EMAIL_HOST_USER = 'ORWA.Tracker@gmail.com'
+        EMAIL_HOST_PASSWORD = 'koayxjvqriwnltoq'
+        EMAIL_PORT = 465
+
+        # SERVER_EMAIL = 'orwa@pneumatrol.com'
+        # MAIL_HOST = "192.168.0.253"
+        # EMAIL_HOST_USER = 'orwa'
+        # EMAIL_HOST_PASSWORD = 'Connect667_'
+        # EMAIL_PORT = 25
+        
+
         salesdata = SalesOrder.objects.filter(issue_date__isnull=True).filter(reject_date__isnull=True)
         userEmails = []
         for user in User.objects.all():
             userEmails.append(user.email)
 
-        context = {
+        contextdict = {
         'SalesOrder':salesdata,
         }
 
         subject ='Weekly ORWA list'
-        sendfrom = settings.EMAIL_HOST_USER
         to = ['tomt@pneumatrol.com']
-
-        #send_mail(subject,body,sendfrom,to,fail_silently=False,)
         
         text_content = 'see live.pneumatrol.com'
-        html_content  = render_to_string('ORWAapp/home/EmailReminder.html', context)
+        html_content  = render_to_string('ORWAapp/home/EmailReminder.html', contextdict)
+        
+        #create message
+        message = MIMEMultipart()
+        #add parts to message
+        message["From"] = SERVER_EMAIL
+        message["To"] =  ', '.join(to)
+        message["Subject"] = subject
+        message.preamble = 'ORWA Report'
 
-        msg = EmailMultiAlternatives(subject, text_content, sendfrom, to)
-        msg.attach_alternative(html_content, "text/html")
-        #print(msg)
-        msg.send()
+        #add body options
+        part1 = MIMEText(text_content, "plain")
+        part2 = MIMEText(html_content, "html")
+
+        # Add HTML/plain-text parts to MIMEMultipart message
+        # The email client will try to render the last part first
+        message.attach(part2)
+        #message.attach(part1)
+        #message.attach(part2)
+
+        #Gmail settings - ORWA.Tracker@gmail.com
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL(MAIL_HOST, EMAIL_PORT, context = context) as server:
+            server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+            server.sendmail(SERVER_EMAIL, to, message.as_string())
+            server.quit()
+            print("Successfully sent email")
+
+        #ORWA@Pneumatrol.com
+        # with smtplib.SMTP(MAIL_HOST, EMAIL_PORT) as server:
+        #     server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+        #     server.sendmail(SERVER_EMAIL, to, message)
+        #     server.quit()
+        #     print("Successfully sent email")
