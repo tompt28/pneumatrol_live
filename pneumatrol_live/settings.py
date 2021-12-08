@@ -44,6 +44,7 @@ EMAIL_HOST_USER = 'pneuamtrol/orwa'
 EMAIL_HOST_PASSWORD = 'Connect667_'
 EMAIL_PORT = 25
 EMAIL_USE_TLS = False
+EMAIL_USE_SSL = False
 # Application definition
 
 INSTALLED_APPS = [

@@ -8,12 +8,19 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User, Group
 from django import template
+import os
 from datetime import *
 from django.core import mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.mail import EmailMultiAlternatives, send_mail
 from django.conf import settings
+import smtplib, ssl, email
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email.mime.application import MIMEApplication
+from email import encoders
 
 # Create your views here.
 def index(request):
@@ -595,16 +602,60 @@ def EmailReminder(request):
 
 def IssueEmail(request, order):
 
+    SERVER_EMAIL = 'ORWA.Tracker@gmail.com'
+    MAIL_HOST ="smtp.gmail.com"
+    EMAIL_HOST_USER = 'ORWA.Tracker@gmail.com'
+    EMAIL_HOST_PASSWORD = 'koayxjvqriwnltoq'
+    EMAIL_PORT = 465
+
     salesdata = SalesOrder.objects.get(order_number = order)
     
-    
-    
-    context = {
+    issueEmails = ['zoec@pneumatrol.com','zoel@pneumatrol.com']
+    #replace to with issueEmails om line 630 
+    to = ['tomt@pneumatrol.com']
+        
+
+    contextdict = {
     'salesdata':salesdata,
     }
 
-    return HttpResponseRedirect(reverse('ORWAapp:home'))
-    #return render(request,'ORWAapp/home/IssueEmail.html',context)
+    subject =['Issued ORWA', order]
+    text_content = 'see live.pneumatrol.com'
+    html_content  = render_to_string('ORWAapp/home/IssueEmail.html', contextdict)
+    
+    #create message
+    message = MIMEMultipart()
+    #add parts to message
+    message["From"] = SERVER_EMAIL
+    message["To"] =  ', '.join(to)
+    message["Subject"] = ', '.join(subject)
+
+
+    filename = os.path.join(settings.MEDIA_ROOT, str(salesdata.completed_paperwork))
+
+    with open(filename, 'rb') as f:
+        part = MIMEApplication(f.read(), Name=filename)
+
+        part['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+        message.attach(part)
+
+    #add body options
+    part2 = MIMEText(html_content, "html")
+
+    # Add HTML/plain-text parts to MIMEMultipart message
+    # The email client will try to render the last part first
+    message.attach(part2)
+
+    #Gmail settings - ORWA.Tracker@gmail.com
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL(MAIL_HOST, EMAIL_PORT, context = context) as server:
+        server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+        server.sendmail(SERVER_EMAIL, to, message.as_string())
+        server.quit()
+        print("Successfully sent email") #return render(request,'ORWAapp/home/IssueEmail.html',context)
+
+        return HttpResponseRedirect(reverse('ORWAapp:home'))
+
 
 @login_required
 def searchResults(request):
