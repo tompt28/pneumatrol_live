@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from ORWAapp.forms import *
 from django.db.models import Q
-from ORWAapp.models import Customers, SalesOrder, Parts, PartType
+from ORWAapp.models import Customers, SalesOrder, Parts, PartType, Employee
 from django.http import Http404, HttpResponseRedirect,HttpResponse,FileResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required

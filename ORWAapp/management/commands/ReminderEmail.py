@@ -3,6 +3,7 @@ from ORWAapp.models import SalesOrder
 from django.contrib.auth.models import User
 from django import template
 from datetime import *
+from ORWAapp.models import *
 from django.core import mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -28,23 +29,17 @@ class Command(BaseCommand):
         # EMAIL_HOST_USER = 'orwa'
         # EMAIL_HOST_PASSWORD = 'Connect667_'
         # EMAIL_PORT = 25
-        
-
-        salesdata = SalesOrder.objects.filter(issue_date__isnull=True).filter(reject_date__isnull=True)
-        userEmails = []
-        for user in User.objects.all():
-            userEmails.append(user.email)
 
         contextdict = {
         'SalesOrder':salesdata,
         }
 
         subject ='Weekly ORWA list'
+        
         Reminder = []
 
         sendreminder = Employee.objects.filter(ORWAReminder = True)
         
-    
         for user in sendreminder:
             finduser = User.objects.get(username = user)
             emailaddress = finduser.email
