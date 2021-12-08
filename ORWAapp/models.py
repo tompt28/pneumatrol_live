@@ -32,7 +32,10 @@ class Employee(models.Model):
 		on_delete = models.CASCADE,
 		)
 	 # ADDITIONAL
-	
+
+	ORWAReminder = models.BooleanField(default = False, blank=True)
+	IssueEmails = models.BooleanField(default = False, blank=True)
+
 	Sales = 'SAL'
 	Engineering = 'ENG'
 	EngineeringManager = 'ENM'

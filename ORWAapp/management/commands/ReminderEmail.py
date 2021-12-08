@@ -40,7 +40,16 @@ class Command(BaseCommand):
         }
 
         subject ='Weekly ORWA list'
-        to = ['tomt@pneumatrol.com']
+        Reminder = []
+
+        sendreminder = Employee.objects.filter(ORWAReminder = True)
+        
+    
+        for user in sendreminder:
+            finduser = User.objects.get(username = user)
+            emailaddress = finduser.email
+            Reminder.append(emailaddress)
+
         
         text_content = 'see live.pneumatrol.com'
         html_content  = render_to_string('ORWAapp/home/EmailReminder.html', contextdict)
@@ -49,7 +58,7 @@ class Command(BaseCommand):
         message = MIMEMultipart()
         #add parts to message
         message["From"] = SERVER_EMAIL
-        message["To"] =  ', '.join(to)
+        message["To"] =  ', '.join(Reminder)
         message["Subject"] = subject
         message.preamble = 'ORWA Report'
 

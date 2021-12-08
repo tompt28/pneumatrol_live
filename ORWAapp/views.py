@@ -104,7 +104,7 @@ def user_login(request):
     return render(request,"ORWAapp/login.html",context)
 
 def HomeTopLevel(request):
-    username = request.user.username
+    username = request.user.first_name
     
     user_group = request.user.groups.values_list('name',flat = True) # QuerySet Object
     user_group_as_list = list(user_group)   #QuerySet to `list`
@@ -134,7 +134,7 @@ def HomeTopLevel(request):
 
 def home(request):
 
-    username = request.user.username
+    username = request.user.first_name
     user_group = request.user.groups.values_list('name',flat = True) # QuerySet Object
     user_group_as_list = list(user_group)   #QuerySet to `list`
 
@@ -159,7 +159,7 @@ def home(request):
 
 def NewORWA(request):
 
-    user = request.user.username
+    user = request.user.first_name
  
     posted = False
 
@@ -188,7 +188,7 @@ def NewORWA(request):
 
 
 def Customer(request):
-    user = request.user.username
+    user = request.user.first_name
     data = Customers.objects.all()
     context = {
         'Customers':data,
@@ -198,7 +198,7 @@ def Customer(request):
 
 
 def NewCustomer(request):
-    user = request.user.username
+    user = request.user.first_name
     added = False
 
     if request.method == "POST":
@@ -227,7 +227,7 @@ def NewCustomer(request):
 
 
 def PartTypes(request):
-    user = request.user.username
+    user = request.user.first_name
     data = PartType.objects.all()
     context = {
         'insert_me':user,
@@ -237,7 +237,7 @@ def PartTypes(request):
 
 
 def Completed(request):
-    user = request.user.username
+    user = request.user.first_name
     reject_data = SalesOrder.objects.filter(reject_user__isnull = False)
     issue_data = SalesOrder.objects.filter(issue_date__isnull = False)   
 
@@ -251,7 +251,7 @@ def Completed(request):
 
 
 def Approve(request):
-    user = request.user.username
+    user = request.user.first_name
     
     partdata = Parts.objects.filter(
         approved_date__isnull=True
@@ -264,7 +264,7 @@ def Approve(request):
     return render(request,'ORWAapp/home/Approve.html',context)
 
 def ApprovePart(request, part):
-    user = request.user.username
+    user = request.user.first_name
     pd = Parts.objects.get(part_code = part)
     so = pd.sales_order
     SO = SalesOrder.objects.filter( order_number = so )
@@ -327,7 +327,7 @@ def ApprovePart(request, part):
 
 
 def Allocate(request):
-    user = request.user.username
+    user = request.user.first_name
     AT = SalesOrder.objects.filter(issue_date__isnull = True).filter(allocated_to__isnull = True)
     print()
     context = {
@@ -339,7 +339,7 @@ def Allocate(request):
 def AllocateDetail(request, order):
 
     od = SalesOrder.objects.get(order_number = order)    
-    user = request.user.username
+    user = request.user.first_name
     Allocated = False
 
     if request.method == "POST":
@@ -368,7 +368,7 @@ def AllocateDetail(request, order):
 
 def OpenOrders(request):
 
-    user = request.user.username
+    user = request.user.first_name
     noORWA = False
     
     salesdata = SalesOrder.objects.filter(issue_date__isnull=True).filter(reject_date__isnull=True)
@@ -385,7 +385,7 @@ def OpenOrders(request):
 
 def OrderDetail(request, order):
  
-    user = request.user.username
+    user = request.user.first_name
     user_group = request.user.groups.values_list('name',flat = True) # QuerySet Object
     user_group_as_list = list(user_group)   #QuerySet to `list`
     DEPT = user_group_as_list[0]
@@ -422,7 +422,7 @@ def AddParts(request, order):
     added = False
     existing = False
     alladd = False
-    user = request.user.username
+    user = request.user.first_name
     od = SalesOrder.objects.get(order_number = order)
     pd = Parts.objects.filter(sales_order = od)
     partadded = len(pd)
@@ -475,7 +475,7 @@ def AddParts(request, order):
 
 
 def AddType(request):
-    user = request.user.username
+    user = request.user.first_name
     added = False
 
     if request.method == "POST":
@@ -509,7 +509,7 @@ def PartDetail(request, part):
     return render(request, 'ORWAapp/home/PartDetail.html', context)
 
 def AllParts(request):
-    user = request.user.username
+    user = request.user.first_name
     ap = Parts.objects.all()
     context = {
     'insert_me':user,
@@ -523,7 +523,7 @@ def DonePaperwork(request, order):
     od = SalesOrder.objects.get(order_number = order)
     orderid = od.pk
     print(orderid)   
-    user = request.user.username
+    user = request.user.first_name
     added = False
     a = get_object_or_404(SalesOrder,pk=od.id)
     print(a)
@@ -561,7 +561,7 @@ def Reject(request, order):
     info = SalesOrder.objects.get(pk=od.id)
     print(info.id)
     od = get_object_or_404(SalesOrder, pk=info.id)
-    user = request.user.username
+    user = request.user.first_name
     added = False
 
     if request.method == "POST":
@@ -594,7 +594,8 @@ def Reject(request, order):
 def EmailReminder(request):
 
     salesdata = SalesOrder.objects.filter(issue_date__isnull=True).filter(reject_date__isnull=True)
-
+    
+        
     context = {
     'SalesOrder':salesdata,
     }
@@ -610,9 +611,14 @@ def IssueEmail(request, order):
     EMAIL_PORT = 465
 
     salesdata = SalesOrder.objects.get(order_number = order)
-    
-    issueEmails = ['zoec@pneumatrol.com','zoel@pneumatrol.com']
         
+    sendreminder = Employee.objects.filter(IssueEmails = True)
+    issueEmails = []
+    
+    for user in sendreminder:
+        finduser = User.objects.get(username = user)
+        emailaddress = finduser.email
+        emailto.append(emailaddress)
 
     contextdict = {
     'salesdata':salesdata,
@@ -659,9 +665,8 @@ def IssueEmail(request, order):
 @login_required
 def searchResults(request):
    
-    user = request.user.username
+    user = request.user.first_name
 
-    
     if request.method == 'GET':
        SI = request.GET.get('search_input')
        print(SI) 
