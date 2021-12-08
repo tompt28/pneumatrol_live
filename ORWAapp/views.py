@@ -21,6 +21,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email.mime.application import MIMEApplication
 from email import encoders
+from os.path import basename
 
 # Create your views here.
 def index(request):
@@ -611,8 +612,6 @@ def IssueEmail(request, order):
     salesdata = SalesOrder.objects.get(order_number = order)
     
     issueEmails = ['zoec@pneumatrol.com','zoel@pneumatrol.com']
-    #replace to with issueEmails om line 630 
-    to = ['tomt@pneumatrol.com']
         
 
     contextdict = {
@@ -627,16 +626,16 @@ def IssueEmail(request, order):
     message = MIMEMultipart()
     #add parts to message
     message["From"] = SERVER_EMAIL
-    message["To"] =  ', '.join(to)
+    message["To"] =  ', '.join(issueEmails)
     message["Subject"] = ', '.join(subject)
 
 
     filename = os.path.join(settings.MEDIA_ROOT, str(salesdata.completed_paperwork))
 
     with open(filename, 'rb') as f:
-        part = MIMEApplication(f.read(), Name=filename)
+        part = MIMEApplication(f.read(), Name=basename(filename))
 
-        part['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+        part['Content-Disposition'] = 'attachment; filename="{}"'.format(basename(filename))
         message.attach(part)
 
     #add body options
