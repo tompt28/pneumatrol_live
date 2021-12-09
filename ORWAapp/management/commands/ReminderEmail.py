@@ -18,17 +18,17 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         
-        SERVER_EMAIL = 'ORWA.Tracker@gmail.com'
-        MAIL_HOST ="smtp.gmail.com"
-        EMAIL_HOST_USER = 'ORWA.Tracker@gmail.com'
-        EMAIL_HOST_PASSWORD = 'koayxjvqriwnltoq'
-        EMAIL_PORT = 465
+        # SERVER_EMAIL = 'ORWA.Tracker@gmail.com'
+        # MAIL_HOST ="smtp.gmail.com"
+        # EMAIL_HOST_USER = 'ORWA.Tracker@gmail.com'
+        # EMAIL_HOST_PASSWORD = 'koayxjvqriwnltoq'
+        # EMAIL_PORT = 465
 
-        # SERVER_EMAIL = 'orwa@pneumatrol.com'
-        # MAIL_HOST = "192.168.0.253"
-        # EMAIL_HOST_USER = 'orwa'
-        # EMAIL_HOST_PASSWORD = 'Connect667_'
-        # EMAIL_PORT = 25
+        SERVER_EMAIL = 'orwa@pneumatrol.com'
+        MAIL_HOST = "192.168.0.253"
+        #EMAIL_HOST_USER = 'orwa'
+        #EMAIL_HOST_PASSWORD = 'Connect667_'
+        EMAIL_PORT = 25
         
         salesdata = SalesOrder.objects.filter(issue_date__isnull=True).filter(reject_date__isnull=True)
 
@@ -65,20 +65,19 @@ class Command(BaseCommand):
         # Add HTML/plain-text parts to MIMEMultipart message
         # The email client will try to render the last part first
         message.attach(part2)
-        #message.attach(part1)
-        #message.attach(part2)
 
         #Gmail settings - ORWA.Tracker@gmail.com
-        context = ssl.create_default_context()
-        with smtplib.SMTP_SSL(MAIL_HOST, EMAIL_PORT, context = context) as server:
-            server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+        # context = ssl.create_default_context()
+        # with smtplib.SMTP_SSL(MAIL_HOST, EMAIL_PORT, context = context) as server:
+        #     server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+        #     server.sendmail(SERVER_EMAIL, Reminder, message.as_string())
+        #     server.quit()
+        #     print("Successfully sent email")
+
+
+        #ORWA@Pneumatrol.com
+        with smtplib.SMTP(MAIL_HOST, EMAIL_PORT) as server:
+            #server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
             server.sendmail(SERVER_EMAIL, Reminder, message.as_string())
             server.quit()
             print("Successfully sent email")
-
-        #ORWA@Pneumatrol.com
-        # with smtplib.SMTP(MAIL_HOST, EMAIL_PORT) as server:
-        #     server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
-        #     server.sendmail(SERVER_EMAIL, to, message)
-        #     server.quit()
-        #     print("Successfully sent email")

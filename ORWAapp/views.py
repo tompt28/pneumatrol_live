@@ -159,15 +159,22 @@ def home(request):
 
 def NewORWA(request):
 
-    user = request.user.first_name
+    firstname = request.user.first_name
     posted = False
 
-    SERVER_EMAIL = 'ORWA.Tracker@gmail.com'
-    MAIL_HOST ="smtp.gmail.com"
-    EMAIL_HOST_USER = 'ORWA.Tracker@gmail.com'
-    EMAIL_HOST_PASSWORD = 'koayxjvqriwnltoq'
-    EMAIL_PORT = 465
+    #Gmail settings
+    # SERVER_EMAIL = 'ORWA.Tracker@gmail.com'
+    # MAIL_HOST ="smtp.gmail.com"
+    # EMAIL_HOST_USER = 'ORWA.Tracker@gmail.com'
+    # EMAIL_HOST_PASSWORD = 'koayxjvqriwnltoq'
+    # EMAIL_PORT = 465
 
+    #ORWA@pneumatrol settings
+    SERVER_EMAIL = 'orwa@pneumatrol.com'
+    MAIL_HOST = "192.168.0.253"
+    EMAIL_HOST_USER = 'orwa'
+    EMAIL_HOST_PASSWORD = 'Connect667_'
+    EMAIL_PORT = 25
     
     Engstaff = Employee.objects.filter(Role = 'ENG')
     EngMan = Employee.objects.filter(Role = 'ENM')
@@ -179,9 +186,10 @@ def NewORWA(request):
         emailaddress = finduser.email
         NewORWAemails.append(emailaddress)
 
-    findENM = User.objects.get(username = EngMan[0])
-    emailaddress = findENM.email
-    NewORWAemails.append(emailaddress)
+    for user in EngMan:
+        findman = User.objects.get(username = user)
+        emailaddress = findman.email
+        NewORWAemails.append(emailaddress)
 
     if request.method == "POST":
         new_ORWA_form = NewORWAForm(request.POST, request.FILES)
@@ -226,16 +234,23 @@ def NewORWA(request):
             part2 = MIMEText(html_content, "html")
 
             # Add HTML/plain-text parts to MIMEMultipart message
-            # The email client will try to render the last part first
             message.attach(part2)
 
             #Gmail settings - ORWA.Tracker@gmail.com
-            context = ssl.create_default_context()
-            with smtplib.SMTP_SSL(MAIL_HOST, EMAIL_PORT, context = context) as server:
-                server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+
+            # context = ssl.create_default_context()
+            # with smtplib.SMTP_SSL(MAIL_HOST, EMAIL_PORT, context = context) as server:
+            #     server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+            #     server.sendmail(SERVER_EMAIL, NewORWAemails, message.as_string())
+            #     server.quit()
+            #     print("Successfully sent email")
+
+            #ORWA@Pneumatrol.com
+            with smtplib.SMTP(MAIL_HOST, EMAIL_PORT) as server:
                 server.sendmail(SERVER_EMAIL, NewORWAemails, message.as_string())
                 server.quit()
                 print("Successfully sent email")
+
 
         else:
             return HttpResponse("invalid details supplied")
@@ -246,7 +261,7 @@ def NewORWA(request):
 
     context = {
         'NewORWAForm':NewORWAForm,
-        'insert_me':user,
+        'insert_me':firstname,
         'posted':posted,
         }
 
@@ -669,11 +684,17 @@ def EmailReminder(request):
 
 def IssueEmail(request, order):
 
-    SERVER_EMAIL = 'ORWA.Tracker@gmail.com'
-    MAIL_HOST ="smtp.gmail.com"
-    EMAIL_HOST_USER = 'ORWA.Tracker@gmail.com'
-    EMAIL_HOST_PASSWORD = 'koayxjvqriwnltoq'
-    EMAIL_PORT = 465
+    # gmail setttings 
+    # SERVER_EMAIL = 'ORWA.Tracker@gmail.com'
+    # MAIL_HOST ="smtp.gmail.com"
+    # EMAIL_HOST_USER = 'ORWA.Tracker@gmail.com'
+    # EMAIL_HOST_PASSWORD = 'koayxjvqriwnltoq'
+    # EMAIL_PORT = 465
+
+    #ORWA@pneumatrol settings
+    SERVER_EMAIL = 'orwa@pneumatrol.com'
+    MAIL_HOST = "192.168.0.253"
+    EMAIL_PORT = 25
 
     salesdata = SalesOrder.objects.get(order_number = order)   
     sendreminder = Employee.objects.filter(IssueEmails = True)
@@ -716,15 +737,21 @@ def IssueEmail(request, order):
     # The email client will try to render the last part first
     message.attach(part2)
 
-    #Gmail settings - ORWA.Tracker@gmail.com
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL(MAIL_HOST, EMAIL_PORT, context = context) as server:
-        server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+    # Gmail settings - ORWA.Tracker@gmail.com
+    # context = ssl.create_default_context()
+    # with smtplib.SMTP_SSL(MAIL_HOST, EMAIL_PORT, context = context) as server:
+    #     server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+    #     server.sendmail(SERVER_EMAIL, issueEmails, message.as_string())
+    #     server.quit()
+    #     print("Successfully sent email") 
+
+    #ORWA@Pneumatrol.com
+    with smtplib.SMTP(MAIL_HOST, EMAIL_PORT) as server:
         server.sendmail(SERVER_EMAIL, issueEmails, message.as_string())
         server.quit()
-        print("Successfully sent email") 
+        print("Successfully sent email")
 
-        return HttpResponseRedirect(reverse('ORWAapp:home'))
+    return HttpResponseRedirect(reverse('ORWAapp:home'))
 
 
 @login_required
