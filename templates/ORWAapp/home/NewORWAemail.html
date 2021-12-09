@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+	{% block body_block %}
+		<div class="container">
+			<div class="jumbotron">
+			<center>
+			<h1>ORWA {{ salesdata.order_number }} has been created </h1>
+			<hr class="my-4">
+				<h2>The Sales team has recived an order that requires Engineering support </h2>
+					<h3>See the ORWA's details below.<h3>
+			<hr class="my-4">
+				
+				<table style="width:100%;">
+				    <tr>
+				        <th>Order Number</th>
+				        <th>Customer</th>
+				        <th>Entered Date</th>
+				        <th>Order Date</th>
+				        <th>Notes</th>
+				        <th>Allocation</th>
+				    </tr>
+				    <tr><center>
+	            		<td><a href="live.pneumatrol.com" target="_blank">{{ salesdata.order_number }}</a></td>
+				        <td>{{ salesdata.customer }}</td>
+				        <td>{{ salesdata.entered_date }}</td>
+				        <td>{{ salesdata.order_date }}</td>
+				        <td>{{ salesdata.notes }}</td>
+				        <td>{{ salesdata.allocated_to }}</td>
+				    </center></tr>
+					    
+				</table>
+				<hr class="my-4">
+		</center>
+	{% endblock %}

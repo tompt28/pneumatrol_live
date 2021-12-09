@@ -160,8 +160,28 @@ def home(request):
 def NewORWA(request):
 
     user = request.user.first_name
- 
     posted = False
+
+    SERVER_EMAIL = 'ORWA.Tracker@gmail.com'
+    MAIL_HOST ="smtp.gmail.com"
+    EMAIL_HOST_USER = 'ORWA.Tracker@gmail.com'
+    EMAIL_HOST_PASSWORD = 'koayxjvqriwnltoq'
+    EMAIL_PORT = 465
+
+    
+    Engstaff = Employee.objects.filter(Role = 'ENG')
+    EngMan = Employee.objects.filter(Role = 'ENM')
+    
+    NewORWAemails = []
+    
+    for user in Engstaff:
+        finduser = User.objects.get(username = user)
+        emailaddress = finduser.email
+        NewORWAemails.append(emailaddress)
+
+    findENM = User.objects.get(username = EngMan[0])
+    emailaddress = findENM.email
+    NewORWAemails.append(emailaddress)
 
     if request.method == "POST":
         new_ORWA_form = NewORWAForm(request.POST, request.FILES)
@@ -173,10 +193,56 @@ def NewORWA(request):
             ORWA.entered_date = date.today()
             ORWA.save()
             posted = True
+
+            salesdata = SalesOrder.objects.filter(order_number = ORWA.order_number)   
+
+            contextdict = {
+            'SalesOrder':salesdata,
+            'insert_me':user,
+            'posted':posted,
+            }
+
+            subject =['New ORWA', ORWA.order_number]
+            text_content = 'see live.pneumatrol.com'
+            html_content  = render_to_string('ORWAapp/home/EmailReminder.html', contextdict)
+            
+            #create message
+            message = MIMEMultipart()
+            #add parts to message
+            message["From"] = SERVER_EMAIL
+            message["To"] =  ', '.join(NewORWAemails)
+            message["Subject"] = ', '.join(subject)
+
+
+            filename = os.path.join(settings.MEDIA_ROOT, str(salesdata[0].paperwork))
+
+            with open(filename, 'rb') as f:
+                part = MIMEApplication(f.read(), Name=basename(filename))
+
+                part['Content-Disposition'] = 'attachment; filename="{}"'.format(basename(filename))
+                message.attach(part)
+
+            #add body options
+            part2 = MIMEText(html_content, "html")
+
+            # Add HTML/plain-text parts to MIMEMultipart message
+            # The email client will try to render the last part first
+            message.attach(part2)
+
+            #Gmail settings - ORWA.Tracker@gmail.com
+            context = ssl.create_default_context()
+            with smtplib.SMTP_SSL(MAIL_HOST, EMAIL_PORT, context = context) as server:
+                server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+                server.sendmail(SERVER_EMAIL, NewORWAemails, message.as_string())
+                server.quit()
+                print("Successfully sent email")
+
         else:
             return HttpResponse("invalid details supplied")
             print(new_ORWA_form.errors)
             posted = False
+
+             
 
     context = {
         'NewORWAForm':NewORWAForm,
@@ -609,17 +675,15 @@ def IssueEmail(request, order):
     EMAIL_HOST_PASSWORD = 'koayxjvqriwnltoq'
     EMAIL_PORT = 465
 
-    salesdata = SalesOrder.objects.get(order_number = order)
-        
+    salesdata = SalesOrder.objects.get(order_number = order)   
     sendreminder = Employee.objects.filter(IssueEmails = True)
+
     issueEmails = []
     
     for user in sendreminder:
         finduser = User.objects.get(username = user)
         emailaddress = finduser.email
         issueEmails.append(emailaddress)
-
-    print(issueEmails)
 
     contextdict = {
     'salesdata':salesdata,
@@ -658,7 +722,7 @@ def IssueEmail(request, order):
         server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
         server.sendmail(SERVER_EMAIL, issueEmails, message.as_string())
         server.quit()
-        print("Successfully sent email") #return render(request,'ORWAapp/home/IssueEmail.html',context)
+        print("Successfully sent email") 
 
         return HttpResponseRedirect(reverse('ORWAapp:home'))
 

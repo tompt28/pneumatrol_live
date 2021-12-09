@@ -28,5 +28,4 @@ urlpatterns=[
     path('home/Allocate/<order>', views.AllocateDetail, name='Allocatedetail'),
     path('home/EmailReminder/',views.EmailReminder, name='EmailReminder'),
     path('home/IssueEmail/<order>',views.IssueEmail,name='IssueEmail'),
-    #path('Search/',views.searchResults, name = "searchResults"),
 ]
