@@ -619,6 +619,8 @@ def IssueEmail(request, order):
         emailaddress = finduser.email
         issueEmails.append(emailaddress)
 
+    print(issueEmails)
+
     contextdict = {
     'salesdata':salesdata,
     }
@@ -654,7 +656,7 @@ def IssueEmail(request, order):
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(MAIL_HOST, EMAIL_PORT, context = context) as server:
         server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
-        server.sendmail(SERVER_EMAIL, to, message.as_string())
+        server.sendmail(SERVER_EMAIL, issueEmails, message.as_string())
         server.quit()
         print("Successfully sent email") #return render(request,'ORWAapp/home/IssueEmail.html',context)
 

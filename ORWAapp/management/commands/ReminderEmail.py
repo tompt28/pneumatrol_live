@@ -29,6 +29,8 @@ class Command(BaseCommand):
         # EMAIL_HOST_USER = 'orwa'
         # EMAIL_HOST_PASSWORD = 'Connect667_'
         # EMAIL_PORT = 25
+        
+        salesdata = SalesOrder.objects.filter(issue_date__isnull=True).filter(reject_date__isnull=True)
 
         contextdict = {
         'SalesOrder':salesdata,
@@ -45,7 +47,6 @@ class Command(BaseCommand):
             emailaddress = finduser.email
             Reminder.append(emailaddress)
 
-        
         text_content = 'see live.pneumatrol.com'
         html_content  = render_to_string('ORWAapp/home/EmailReminder.html', contextdict)
         
@@ -71,7 +72,7 @@ class Command(BaseCommand):
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL(MAIL_HOST, EMAIL_PORT, context = context) as server:
             server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
-            server.sendmail(SERVER_EMAIL, to, message.as_string())
+            server.sendmail(SERVER_EMAIL, Reminder, message.as_string())
             server.quit()
             print("Successfully sent email")
 
