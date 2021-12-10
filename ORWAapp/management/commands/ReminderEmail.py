@@ -26,8 +26,6 @@ class Command(BaseCommand):
 
         SERVER_EMAIL = 'orwa@pneumatrol.com'
         MAIL_HOST = "192.168.0.253"
-        #EMAIL_HOST_USER = 'orwa'
-        #EMAIL_HOST_PASSWORD = 'Connect667_'
         EMAIL_PORT = 25
         
         salesdata = SalesOrder.objects.filter(issue_date__isnull=True).filter(reject_date__isnull=True)
@@ -47,6 +45,7 @@ class Command(BaseCommand):
             emailaddress = finduser.email
             Reminder.append(emailaddress)
 
+        Reminder = ['tomt@pneumatrol.com']
         text_content = 'see live.pneumatrol.com'
         html_content  = render_to_string('ORWAapp/home/EmailReminder.html', contextdict)
         
