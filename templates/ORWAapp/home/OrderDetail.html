@@ -36,6 +36,7 @@
                                 <th>Paperwork</th>
                                 <td><a href="/media/{{ od.paperwork }}" target="_blank">{{ od.order_number }}.pdf</a></td>
                             </tr>
+                        {% if issued %}
                             </tr>
                                 <th>Issue date</th>
                                 <td>{{ od.issue_date }}</a></td>
@@ -44,6 +45,7 @@
                                 <th>Completed Paperwork</th>
                                 <td><a href="/media/{{ od.completed_paperwork }}" target="_blank">{{ od.order_number }}.pdf</a></td>
                             </tr>
+                        {% endif %}
                         </table>
                         <br>
                         <table>

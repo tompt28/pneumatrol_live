@@ -19,7 +19,7 @@
 
 					{% elif added %}
 						<h2> Thanks for approving a part on sales order: {{ salesorder }} </h2>
-						<h3> To add another click here </h3>
+						<h3> To add approve another click here </h3>
 						<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:Approve' %}" role="button">Add another</a>
 
 					{% else %}
@@ -31,14 +31,14 @@
 							    </tr>			
 								</table>
 							<br>
-							<input type="submit" class = "btn btn-primary btn-lg" name="" value="Add part to Order">	
+							<input type="submit" class = "btn btn-primary btn-lg" name="" value="Approve {{pd.part_code}}">	
 						</form	>
 					{% endif %}
 					<br>
 				</center>
 			<hr class="my-4">
 			{% if not added %}
-			<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">Back</a>
+			<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">Home</a>
 			{% else %}
 			{% endif %}
 			</div>

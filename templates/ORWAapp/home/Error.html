@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+	{% block body_block %}
+		<title>Allocations</title>
+		<div class="container">
+			<div class="jumbotron">
+			<center>
+			<h1>ERROR</h1>
+			<hr class="my-4">
+				<p class="lead">Hi {{ insert_me }}, you seem to have entered some incorrect data or come acrros a page that doesnt exist yet.</p>
+				<p class="lead">Please go back and try again!</p>
+			<hr class="my-4">
+				
+            <script>document.write('<a class="btn btn-outline-secondary btn-lg" href="' + document.referrer + '">Back</a>');
+            </script>	
+	{% endblock %}

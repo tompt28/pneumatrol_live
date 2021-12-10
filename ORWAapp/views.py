@@ -162,6 +162,8 @@ def NewORWA(request):
     firstname = request.user.first_name
     posted = False
 
+    context = {'insert_me': firstname}
+
     #Gmail settings
     # SERVER_EMAIL = 'ORWA.Tracker@gmail.com'
     # MAIL_HOST ="smtp.gmail.com"
@@ -253,7 +255,7 @@ def NewORWA(request):
 
 
         else:
-            return HttpResponse("invalid details supplied")
+            return render(request,'ORWAapp/home/Error.html', context)
             print(new_ORWA_form.errors)
             posted = False
 
@@ -472,6 +474,8 @@ def OrderDetail(request, order):
     DEPT = user_group_as_list[0]
     alladd = False   
     edit = False
+    issued = False
+
 
     if DEPT == "ENG" or DEPT == "ENM":
         edit = True
@@ -479,6 +483,9 @@ def OrderDetail(request, order):
     od = SalesOrder.objects.get(order_number = order)
     pd = Parts.objects.filter(sales_order = od)
     partadded = len(pd)
+
+    if od.issue_date:
+        issued = True
     
     lines = od.ORWA_lines
     print("ORWA lines:", lines)
@@ -490,6 +497,7 @@ def OrderDetail(request, order):
         alladd = True
 
     context = {
+    'issued':issued,
     'alladd':alladd,
     'insert_me':user,
     'od': od,
