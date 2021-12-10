@@ -3,7 +3,7 @@ from django import template
 from django.contrib.auth.models import User, Group
 from datetime import datetime, timedelta
 from django.utils import timezone
-from django.core.validators import MaxValueValidator, MinLengthValidator
+from django.core.validators import MaxValueValidator, MinLengthValidator, MinValueValidator
 import os
 
 # Create your models here.
@@ -86,14 +86,20 @@ class SalesOrder(models.Model):
 	#futuredate = datetime.now() + timedelta(days=7)
 	
 	#additional
-	order_number = models.CharField(max_length = 8, unique = True, help_text = "1S###### or SAMP####",validators =[MinLengthValidator(8, message="Order number is too short")])
-	customer = models.ForeignKey(Customers,
-									on_delete = models.CASCADE,
+	order_number = models.CharField(max_length = 8,
+									unique = True,
+									help_text = "1S###### or SAMP####",
+									validators =[MinLengthValidator(8, message="Order number is too short")],
 									)
+	customer = models.ForeignKey(Customers,on_delete = models.CASCADE)
 	entered_date = models.DateField(null = True, blank = True)
 	order_date = models.DateField(help_text = "date on the paperwork")
 	issue_date = models.DateField(null = True, blank = True)
-	ORWA_lines = models.IntegerField(null = False, help_text= "number of lines that are an ORWA")
+	ORWA_lines = models.IntegerField(null = False,
+									default=1,
+									help_text= "number of lines that are an ORWA",
+									validators=[MinValueValidator(1, message = "less that 1 line at ORWA")],
+									)
 	reject_user = models.ForeignKey(User, 
 									on_delete = models.CASCADE,
 									related_name='rejected_by',
