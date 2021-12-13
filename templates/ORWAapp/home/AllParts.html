@@ -14,11 +14,12 @@
                 <a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">Back</a>
                     <table>
                         <tr>
-                            <th>Part #</th>
+                            <th>Part code</th>
                             <th>Part type</th>
                             <th>Date started</th>
                             <th>Date completed</th>
                             <th>Date approved</th>
+                            <th>Notes</th>
                         </tr>
                         {% for p in ap %}
                         <tr>
@@ -27,6 +28,7 @@
                             <td>{{ p.start_date }}</td>
                             <td>{{ p.completed_date }}</td>
                             <td>{{ p.approved_date }}</td>
+                            <td>{{ p.notes }}</td>
                         </tr>
                         {% endfor %}
                     </table>

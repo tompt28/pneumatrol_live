@@ -484,12 +484,9 @@ def OrderDetail(request, order):
     if od.issue_date:
         issued = True
 
-    print("hi",od.completed_paperwork)
     if od.completed_paperwork:
         comppaperwork = True
 
-
-    
     lines = od.ORWA_lines
     print("ORWA lines:", lines)
     print("Part lines:", partadded)
