@@ -7,14 +7,14 @@
 				<center>
 					<h1>Add the Completed paperwork </h1>
 						<hr class="my-4">
-						<p class="lead">Hi {{ insert_me }}. Complete the form to add the completed paperwork to the issued ORWA: {{ od.order_number }}</p>
+						<p class="lead">Hi {{ insert_me }}. Complete the form to add the completed paperwork to the ORWA: {{ order }}</p>
 					<hr class="my-4">
 
 					{% if added %}
 
-						<h2> Thanks for adding the Paperwork for : {{ od.order_number }} This complete </h2>
+						<h2> Thanks for adding the Paperwork for : {{ order }} This is now ready for approval. </h2>
 						<br>
-						<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:IssueEmail' od.order_number %}" role="button">home</a>
+						<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:home' %}" role="button">home</a>
 
 					{% else %}
 					

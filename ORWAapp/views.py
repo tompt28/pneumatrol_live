@@ -283,7 +283,9 @@ def Customer(request):
 def NewCustomer(request):
     user = request.user.first_name
     added = False
-
+    context = {
+        'insert_me':user,
+        }
     if request.method == "POST":
         new_Customer_form = NewCustomerForm(data = request.POST)
 
@@ -298,7 +300,8 @@ def NewCustomer(request):
         else:
             print(new_Customer_form.errors)
     else:
-        new_Customer_form = NewCustomerForm()
+        print(new_Customer_form.errors)
+        return render(request,'ORWAapp/home/Error.html', context)
     
     context = {
         'NewCustomerForm':NewCustomerForm,
@@ -347,17 +350,12 @@ def Approve(request):
     return render(request,'ORWAapp/home/Approve.html',context)
 
 def ApprovePart(request, part):
+
     user = request.user.first_name
     pd = Parts.objects.get(part_code = part)
     so = pd.sales_order
     SO = SalesOrder.objects.filter( order_number = so )
     salesorder = SO[0]
-    # lines = so.ORWA_lines
-    # approvecount = [Parts.objects.filter(sales_order = so).filter(approved_by__isnull = True)]
-    # print("ORWA lines:", lines)
-    # print(len(approvecount))
-    # print("Part lines to approve:", approvecount) 
-    # #od = SalesOrder.objects.get(order_number = order)
     partdata = Parts.objects.filter(sales_order = so)
     partadded = len(partdata)
     lines = so.ORWA_lines
@@ -393,8 +391,6 @@ def ApprovePart(request, part):
                 so.save()
                 print("ORWA Issued")
                 issued = True
-
-
             else:
                 pass
                   
@@ -475,6 +471,7 @@ def OrderDetail(request, order):
     alladd = False   
     edit = False
     issued = False
+    comppaperwork = False
 
 
     if DEPT == "ENG" or DEPT == "ENM":
@@ -486,6 +483,12 @@ def OrderDetail(request, order):
 
     if od.issue_date:
         issued = True
+
+    print("hi",od.completed_paperwork)
+    if od.completed_paperwork:
+        comppaperwork = True
+
+
     
     lines = od.ORWA_lines
     print("ORWA lines:", lines)
@@ -500,6 +503,7 @@ def OrderDetail(request, order):
     'issued':issued,
     'alladd':alladd,
     'insert_me':user,
+    'comppaperwork':comppaperwork,
     'od': od,
     'pd':pd,
     'edit': edit,
@@ -522,7 +526,6 @@ def AddParts(request, order):
     print("Part lines to approve:", len(approvecount))
 
    
-    
     pf = Parts(sales_order = od)
 
     if request.method == "POST":
@@ -634,6 +637,7 @@ def DonePaperwork(request, order):
         form = CompletedPaperworkForm(instance = a)
 
     context = {
+    'order':order,
     'od':od,
     'CompletedPaperworkForm':CompletedPaperworkForm,
     'added':added,

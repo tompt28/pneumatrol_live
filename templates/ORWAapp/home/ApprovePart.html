@@ -7,14 +7,14 @@
 				<center>
 					<h1>Approve: {{ pd.part_code }} </h1>
 						<hr class="my-4">
-						<p class="lead">Hi {{ insert_me }}. Complete the form to aprrove partcodes to : {{ salesorder }}</p>
+						<p class="lead">Hi {{ insert_me }}. Complete the form to aprrove {{ pd.part_code }} to sales order: {{ salesorder }}</p>
+						<p class="lead"> Completed paperwork : <a href="/media/{{ salesorder.completed_paperwork }}" target="_blank">{{ salesorder }}-Done.pdf</a></p>
 					<hr class="my-4">
 
 					{% if issued %}
 
-						<h2> No more parts are required for {{ salesorder }} and the ORWA has been issued:</h2>
-						<h3> Please upload the completed paperwork </h3>
-						<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:DonePaperwork' salesorder %}" role="button">Add Paperwork</a>
+						<h2> No more parts are required for {{ salesorder }}. The ORWA has been issued</h2>
+						<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:IssueEmail' salesorder %}" role="button">Home</a>
 
 
 					{% elif added %}

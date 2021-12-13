@@ -11,13 +11,13 @@
 					<hr class="my-4">
 
 					{% if alladd %}
-						<h2> Thanks for adding a Part to sales order {{ order_number }} </h2>
-						<h3> There are no more parts to add! </h3>
-						<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:OpenOrders'%}" role="button">Back to Open Orders</a>
+						<h2> Thanks for adding a Part to sales order {{ order }} </h2>
+						<h3> There are no more parts to add. </h3>
+						<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:DonePaperwork' order%}" role="button">Add completed paperwork</a>
 						<br>
 
 					{% elif added %}
-						<h2> Thanks for adding a Part to sales order {{ order_number }} </h2>
+						<h2> Thanks for adding a Part to sales order {{ order }} </h2>
 						<h3> To add another click here </h3>
 						<a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:AddParts' order %}" role="button">Add another</a>
 						<br>
@@ -31,9 +31,10 @@
 							<br>
 							<input type="submit" class = "btn btn-primary btn-lg" name="" value="Add part to Order">	
 						</form	>
+						<br>	
+						<a class="btn btn-outline-secondary btn-lg " href="{% url 'ORWAapp:PartTypes' %}" role="button">Add New type code</a>
 					{% endif %}
-					<br>
-					<a class="btn btn-outline-secondary btn-lg " href="{% url 'ORWAapp:PartTypes' %}" role="button">Add New type code</a>
+
 
 				</center>
 
