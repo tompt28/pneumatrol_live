@@ -468,7 +468,7 @@ def OrderDetail(request, order):
     user_group = request.user.groups.values_list('name',flat = True) # QuerySet Object
     user_group_as_list = list(user_group)   #QuerySet to `list`
     DEPT = user_group_as_list[0]
-    alladd = False   
+    alladd = False
     edit = False
     issued = False
     comppaperwork = False
@@ -484,12 +484,9 @@ def OrderDetail(request, order):
     if od.issue_date:
         issued = True
 
-    print("hi",od.completed_paperwork)
     if od.completed_paperwork:
         comppaperwork = True
 
-
-    
     lines = od.ORWA_lines
     print("ORWA lines:", lines)
     print("Part lines:", partadded)
