@@ -9,6 +9,8 @@ table{
 
 }
 td, th{
+	width: 150px;
+	overflow-wrap:normal;
 	height: 56px;
 	padding-top: 12px;
 	padding-bottom: 12px;
