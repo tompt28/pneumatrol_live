@@ -610,12 +610,8 @@ def AllParts(request):
 def DonePaperwork(request, order):
 
     od = SalesOrder.objects.get(order_number = order)
-    orderid = od.pk
-    print(orderid)   
     user = request.user.first_name
     added = False
-    a = get_object_or_404(SalesOrder,pk=od.id)
-    print(a)
 
     if request.method == "POST":
         form  = CompletedPaperworkForm(request.POST, request.FILES, instance = a)
