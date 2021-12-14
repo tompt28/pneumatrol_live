@@ -299,9 +299,7 @@ def NewCustomer(request):
 
         else:
             print(new_Customer_form.errors)
-    else:
-        print(new_Customer_form.errors)
-        return render(request,'ORWAapp/home/Error.html', context)
+            return render(request,'ORWAapp/home/Error.html', context)
     
     context = {
         'NewCustomerForm':NewCustomerForm,
@@ -796,3 +794,9 @@ def searchResults(request):
     }
 
     return render(request, 'ORWAapp/search.html', context)
+
+def reports(request):
+    pass
+
+    
+

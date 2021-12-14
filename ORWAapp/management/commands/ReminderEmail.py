@@ -45,7 +45,6 @@ class Command(BaseCommand):
             emailaddress = finduser.email
             Reminder.append(emailaddress)
 
-        Reminder = ['tomt@pneumatrol.com']
         text_content = 'see live.pneumatrol.com'
         html_content  = render_to_string('ORWAapp/home/EmailReminder.html', contextdict)
         
@@ -72,7 +71,6 @@ class Command(BaseCommand):
         #     server.sendmail(SERVER_EMAIL, Reminder, message.as_string())
         #     server.quit()
         #     print("Successfully sent email")
-
 
         #ORWA@Pneumatrol.com
         with smtplib.SMTP(MAIL_HOST, EMAIL_PORT) as server:
