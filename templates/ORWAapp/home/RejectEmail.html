@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+	{% block body_block %}
+		<div class="container">
+			<!-- <a href="live.pneumatrol.com"><img src="https://i.imgur.com/inV9PGY.png" alt="Not Found" style=""></a> -->
+			<div class="jumbotron">
+			<center>
+			<h1>ORWA {{ salesdata.order_number }} has been issued </h1>
+			<hr class="my-4">
+				<h2>The Engineering team has Rejected the ORWA back to sales </h2>
+					<h3>See the ORWA's details below.  <h3>
+			<hr class="my-4">
+				
+				<table style="width:100%;">
+				    <tr>
+				        <th>Order Number</th>
+				        <th>Customer</th>
+				        <th>Entered Date</th>
+				        <th>Order Date</th>
+				        <th>Reject Date</th>
+				        <th>Reject Note</th>
+				        <th>Rejected by</th>
+				    </tr>
+				    <tr><center>
+	            		<td><a href="http://live.pneumatrol.com/ORWAapp/home/orders/{{ salesdata.order_number }}" target="_blank">{{ salesdata.order_number }}</a></td>
+				        <td>{{ salesdata.customer }}</td>
+				        <td>{{ salesdata.entered_date }}</td>
+				        <td>{{ salesdata.order_date }}</td>
+						<td>{{ salesdata.reject_date }}</td>
+				        <td>{{ salesdata.reject_note }}</td>
+				        <td>{{ salesdata.reject_user }}</td>
+				    </center></tr>
+					    
+				</table>
+				<hr class="my-4">
+		</center>
+	{% endblock %}

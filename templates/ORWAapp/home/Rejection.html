@@ -14,7 +14,7 @@
                     <h2> {{ insert_me }}, You have sucsessfully rejected the order {{ od.order_number }} </h2>
                     <br>
                     <h3> To go back click here </h3>
-                    <a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:OpenOrders' %}" role="button">Back to Open Orders</a>
+                    <a class="btn btn-primary btn-lg" href="{% url 'ORWAapp:RejectEmail' od.order_number %}" role="button">Back to Open Orders</a>
 
                 {% else %}
                     <table>

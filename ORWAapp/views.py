@@ -643,9 +643,7 @@ def Reject(request, order):
 
     
     od = SalesOrder.objects.get(order_number = order)
-    print(od)
     info = SalesOrder.objects.get(pk=od.id)
-    print(info.id)
     od = get_object_or_404(SalesOrder, pk=info.id)
     user = request.user.first_name
     added = False
@@ -661,6 +659,7 @@ def Reject(request, order):
             new.save()
             added = True
             print("Rejected")
+
 
         else:
             print(reject_form.errors)
@@ -758,6 +757,76 @@ def IssueEmail(request, order):
 
     return HttpResponseRedirect(reverse('ORWAapp:home'))
 
+def RejectEmail(request, order):
+
+    # gmail setttings 
+    # SERVER_EMAIL = 'ORWA.Tracker@gmail.com'
+    # MAIL_HOST ="smtp.gmail.com"
+    # EMAIL_HOST_USER = 'ORWA.Tracker@gmail.com'
+    # EMAIL_HOST_PASSWORD = 'koayxjvqriwnltoq'
+    # EMAIL_PORT = 465
+
+    #ORWA@pneumatrol settings
+    SERVER_EMAIL = 'orwa@pneumatrol.com'
+    MAIL_HOST = "192.168.0.253"
+    EMAIL_PORT = 25
+
+    salesdata = SalesOrder.objects.get(order_number = order)   
+    sendreminder = Employee.objects.filter(IssueEmails = True)
+
+    RejectEmails = []
+    
+    for user in sendreminder:
+        finduser = User.objects.get(username = user)
+        emailaddress = finduser.email
+        RejectEmails.append(emailaddress)
+
+    contextdict = {
+    'salesdata':salesdata,
+    }
+
+    subject =['Rejected ORWA', order]
+    text_content = 'see live.pneumatrol.com'
+    html_content  = render_to_string('ORWAapp/home/RejectEmail.html', contextdict)
+    
+    #create message
+    message = MIMEMultipart()
+    #add parts to message
+    message["From"] = SERVER_EMAIL
+    message["To"] =  ', '.join(RejectEmails)
+    message["Subject"] = ', '.join(subject)
+
+
+    filename = os.path.join(settings.MEDIA_ROOT, str(salesdata.paperwork))
+
+    with open(filename, 'rb') as f:
+        part = MIMEApplication(f.read(), Name=basename(filename))
+
+        part['Content-Disposition'] = 'attachment; filename="{}"'.format(basename(filename))
+        message.attach(part)
+
+    #add body options
+    part2 = MIMEText(html_content, "html")
+
+    # Add HTML/plain-text parts to MIMEMultipart message
+    # The email client will try to render the last part first
+    message.attach(part2)
+
+    # Gmail settings - ORWA.Tracker@gmail.com
+    # context = ssl.create_default_context()
+    # with smtplib.SMTP_SSL(MAIL_HOST, EMAIL_PORT, context = context) as server:
+    #     server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+    #     server.sendmail(SERVER_EMAIL, issueEmails, message.as_string())
+    #     server.quit()
+    #     print("Successfully sent email") 
+
+    #ORWA@Pneumatrol.com
+    with smtplib.SMTP(MAIL_HOST, EMAIL_PORT) as server:
+        server.sendmail(SERVER_EMAIL, RejectEmails, message.as_string())
+        server.quit()
+        print("Successfully sent email")
+
+    return HttpResponseRedirect(reverse('ORWAapp:home'))
 
 @login_required
 def searchResults(request):
