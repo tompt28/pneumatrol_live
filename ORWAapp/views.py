@@ -336,15 +336,14 @@ def Completed(request):
 
 def Approve(request):
     user = request.user.first_name
-    
-    partdata = Parts.objects.filter(
-        approved_date__isnull=True
-        )
+    username = request.user.id
+    partdata = Parts.objects.filter(Q(approved_date__isnull=True)&(~Q(completed_by = username)))
 
     context = {
-    'Parts':partdata,
-    'insert_me':user,
-    }
+        'Parts':partdata,
+        'insert_me':user,
+        }
+
     return render(request,'ORWAapp/home/Approve.html',context)
 
 def ApprovePart(request, part):

@@ -31,7 +31,7 @@
 				        <td>{{ od.entered_date }}</td>
 				        <td>{{ od.order_date }}</td>
 				        <td>{{ od.notes }}</td>
-				        <td><a href="/media/{{ od.paperwork }}" target="_blank">{{ od.order_number }}</a></td>
+				        <td><a href="/media/{{ od.paperwork }}" target="_blank">{{ od.order_number }}.pdf</a></td>
 				        <td>{{ od.allocated_to }}</td>
 				        <td><a class="btn btn-primary btn-sm" href="{% url 'ORWAapp:Reject' od.order_number %}">Reject</a>
 				    </tr>
