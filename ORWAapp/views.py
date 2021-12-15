@@ -429,7 +429,9 @@ def AllocateDetail(request, order):
             print("added")
             return HttpResponseRedirect(reverse("ORWAapp:Allocate"))
         else:
+
             print(allocate_form.errors)
+            return HttpResponseRedirect(reverse("ORWAapp:Error"))
             
     else:
         allocate_form = AllocatedToForm()
@@ -440,7 +442,7 @@ def AllocateDetail(request, order):
     'Allocated':Allocated,
     'insert_me':user,
     }
-    return render(request,'ORWAapp/home/Allocatedetail.html',context)
+    return render(request,'ORWAapp/home/AllocateDetail.html',context)
 
 
 def OpenOrders(request):
