@@ -614,7 +614,7 @@ def DonePaperwork(request, order):
     added = False
 
     if request.method == "POST":
-        form  = CompletedPaperworkForm(request.POST, request.FILES, instance = a)
+        form  = CompletedPaperworkForm(request.POST, request.FILES, instance = od)
 
         if form.is_valid():
             new = form.save(commit = False)
@@ -627,7 +627,7 @@ def DonePaperwork(request, order):
             print(CompletedPaperworkForm.errors)
             
     else:
-        form = CompletedPaperworkForm(instance = a)
+        form = CompletedPaperworkForm()
 
     context = {
     'order':order,
