@@ -55,7 +55,8 @@ def index(request):
         context = {**context, **role_dict}
         return render(request,'HomeTopLevel.html',context)
 
-@login_required
+
+@login_required(login_url='/user_login/')
 def user_logout(request):
 
     logout(request)
@@ -133,6 +134,8 @@ def user_login(request):
     
     return render(request,"ORWAapp/login.html",context)
 
+
+@login_required(login_url='/user_login/')
 def HomeTopLevel(request):
     username = request.user.first_name
     
@@ -162,6 +165,8 @@ def HomeTopLevel(request):
 
     return render(request,'HomeTopLevel.html', context)
 
+
+@login_required(login_url='/user_login/')
 def home(request):
 
     username = request.user.first_name
@@ -187,7 +192,8 @@ def home(request):
     
     return render(request, 'ORWAapp/home.html', context)
 
-@login_required
+
+@login_required(login_url='/user_login/')
 def NewORWA(request):
 
     firstname = request.user.first_name
@@ -299,6 +305,7 @@ def NewORWA(request):
     return render(request,'ORWAapp/home/NewORWA.html',context)
 
 
+@login_required(login_url='/user_login/')
 def Customer(request):
     user = request.user.first_name
     data = Customers.objects.all()
@@ -309,6 +316,7 @@ def Customer(request):
     return render(request,'ORWAapp/home/Customers.html',context)
 
 
+@login_required(login_url='/user_login/')
 def NewCustomer(request):
     user = request.user.first_name
     added = False
@@ -339,6 +347,7 @@ def NewCustomer(request):
     return render(request,'ORWAapp/home/NewCustomer.html',context)
 
 
+@login_required(login_url='/user_login/')
 def PartTypes(request):
     user = request.user.first_name
     data = PartType.objects.all()
@@ -349,6 +358,7 @@ def PartTypes(request):
     return render(request,'ORWAapp/home/PartTypes.html',context)
 
 
+@login_required(login_url='/user_login/')
 def Completed(request):
     user = request.user.first_name
     reject_data = SalesOrder.objects.filter(reject_user__isnull = False)
@@ -363,6 +373,7 @@ def Completed(request):
     return render(request,'ORWAapp/home/Completed.html',context)
 
 
+@login_required(login_url='/user_login/')
 def Approve(request):
     user = request.user.first_name
     username = request.user.id
@@ -375,6 +386,7 @@ def Approve(request):
 
     return render(request,'ORWAapp/home/Approve.html',context)
 
+@login_required(login_url='/user_login/')
 def ApprovePart(request, part):
 
     user = request.user.first_name
@@ -431,6 +443,7 @@ def ApprovePart(request, part):
     return render(request,'ORWAapp/home/ApprovePart.html',context)
 
 
+@login_required(login_url='/user_login/')
 def Allocate(request):
     user = request.user.first_name
     AT = SalesOrder.objects.filter(issue_date__isnull = True).filter(allocated_to__isnull = True)
@@ -441,6 +454,8 @@ def Allocate(request):
     }
     return render(request,'ORWAapp/home/Allocate.html',context)
 
+
+@login_required(login_url='/user_login/')
 def AllocateDetail(request, order):
 
     od = SalesOrder.objects.get(order_number = order)    
@@ -473,6 +488,7 @@ def AllocateDetail(request, order):
     return render(request,'ORWAapp/home/AllocateDetail.html',context)
 
 
+@login_required(login_url='/user_login/')
 def OpenOrders(request):
 
     user = request.user.first_name
@@ -490,6 +506,8 @@ def OpenOrders(request):
 
     return render(request,'ORWAapp/home/OpenOrders.html',context)
 
+
+@login_required(login_url='/user_login/')
 def OrderDetail(request, order):
  
     user = request.user.first_name
@@ -535,6 +553,8 @@ def OrderDetail(request, order):
     }
     return render(request, 'ORWAapp/home/OrderDetail.html', context)
 
+
+@login_required(login_url='/user_login/')
 def AddParts(request, order):
     
     added = False
@@ -591,6 +611,7 @@ def AddParts(request, order):
     return render(request,'ORWAapp/home/AddParts.html',context)
 
 
+@login_required(login_url='/user_login/')
 def AddType(request):
     user = request.user.first_name
     added = False
@@ -615,6 +636,8 @@ def AddType(request):
     }
     return render(request,'ORWAapp/home/AddType.html',context)
 
+
+@login_required(login_url='/user_login/')
 def PartDetail(request, part):
     p = Parts.objects.get(part_code = part)
     SO = SalesOrder.objects.get(order_number = p.sales_order)
@@ -625,6 +648,8 @@ def PartDetail(request, part):
     }
     return render(request, 'ORWAapp/home/PartDetail.html', context)
 
+
+@login_required(login_url='/user_login/')
 def AllParts(request):
     user = request.user.first_name
     ap = Parts.objects.all()
@@ -635,6 +660,7 @@ def AllParts(request):
     return render(request, 'ORWAapp/home/AllParts.html', context)
 
 
+@login_required(login_url='/user_login/')
 def DonePaperwork(request, order):
 
     od = SalesOrder.objects.get(order_number = order)
@@ -667,8 +693,8 @@ def DonePaperwork(request, order):
     return render(request,'ORWAapp/home/DonePaperwork.html',context)
 
 
+@login_required(login_url='/user_login/')
 def Reject(request, order):
-
     
     od = SalesOrder.objects.get(order_number = order)
     info = SalesOrder.objects.get(pk=od.id)
@@ -704,6 +730,7 @@ def Reject(request, order):
     return render(request, 'ORWAapp/home/Rejection.html', context)
 
 
+@login_required(login_url='/user_login/')
 def EmailReminder(request):
 
     salesdata = SalesOrder.objects.filter(issue_date__isnull=True).filter(reject_date__isnull=True)
@@ -714,6 +741,8 @@ def EmailReminder(request):
 
     return render(request,'ORWAapp/home/EmailReminder.html',context)
 
+
+@login_required(login_url='/user_login/')
 def IssueEmail(request, order):
 
     # gmail setttings 
@@ -785,6 +814,8 @@ def IssueEmail(request, order):
 
     return HttpResponseRedirect(reverse('ORWAapp:home'))
 
+
+@login_required(login_url='/user_login/')
 def RejectEmail(request, order):
 
     # gmail setttings 
@@ -856,6 +887,8 @@ def RejectEmail(request, order):
 
     return HttpResponseRedirect(reverse('ORWAapp:home'))
 
+
+@login_required(login_url='/user_login/')
 def searchResults(request):
 
     if not request.user.is_authenticated:
@@ -896,6 +929,8 @@ def searchResults(request):
 
     return render(request, 'ORWAapp/search.html', context)
 
+
+@login_required(login_url='/user_login/')
 def reports(request):
     pass
 
