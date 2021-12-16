@@ -25,13 +25,42 @@ from os.path import basename
 
 # Create your views here.
 def index(request):
-    return render(request,'ORWAapp/index.html')
+    if not request.user.is_authenticated:
+        return render(request,'index.html')
+    else:
+        username = request.user.first_name
+        
+        user_group = request.user.groups.values_list('name',flat = True) # QuerySet Object
+        user_group_as_list = list(user_group)   #QuerySet to `list`
+        DEPT = user_group_as_list[0]
+        if user_group_as_list[0] == "ENG":
+            role_dict = {'ENG':"Welcome to the Engineering toolbox"}
+
+        elif user_group_as_list[0] == "ENM":
+            role_dict = {'ENM':"Welcome to the Engineering manager toolbox!"}
+
+        elif user_group_as_list[0] == "SAL":
+            role_dict = {'SAL':"Welcome to the Sales toolbox!"}
+
+        elif user_group_as_list[0] == "SAM":
+            role_dict = {'SAM':"Welcome to the Sales Manager toolbox!"}
+        else:
+            print("NO ROLE")
+
+
+        context = {
+            'username':username,
+            'DEPT':DEPT
+            }
+        context = {**context, **role_dict}
+        return render(request,'HomeTopLevel.html',context)
 
 @login_required
 def user_logout(request):
 
     logout(request)
     return HttpResponseRedirect(reverse('index'))
+
 
 def register(request):
 
@@ -45,6 +74,7 @@ def register(request):
             
             user = user_form.save()
             user.set_password(user.password)
+            user.is_active = False
 
             user.save()
 
@@ -59,8 +89,8 @@ def register(request):
             set_group.user_set.add(user)
 
             profile.save()
-
             registered = True
+
         else:
             print(user_form.errors,profile_form.errors)
     else:
@@ -88,10 +118,10 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request,user)
-                return HttpResponseRedirect(reverse("HomeTopLevel"))
+                return HttpResponseRedirect(reverse("index"))
     
             else:
-                return HttpResponse("Account not active")
+                return HttpResponseRedirect(reverse("Error"))
         else:
             print("somebody tried to log in and failed")
             print("Username: {} and password {}".format(username,password))
@@ -157,6 +187,7 @@ def home(request):
     
     return render(request, 'ORWAapp/home.html', context)
 
+@login_required
 def NewORWA(request):
 
     firstname = request.user.first_name
@@ -174,8 +205,6 @@ def NewORWA(request):
     #ORWA@pneumatrol settings
     SERVER_EMAIL = 'orwa@pneumatrol.com'
     MAIL_HOST = "192.168.0.253"
-    EMAIL_HOST_USER = 'orwa'
-    EMAIL_HOST_PASSWORD = 'Connect667_'
     EMAIL_PORT = 25
     
     Engstaff = Employee.objects.filter(Role = 'ENG')
@@ -827,10 +856,12 @@ def RejectEmail(request, order):
 
     return HttpResponseRedirect(reverse('ORWAapp:home'))
 
-@login_required
 def searchResults(request):
-   
-    user = request.user.first_name
+
+    if not request.user.is_authenticated:
+        user = "guest"
+    else:
+        user = request.user.first_name
 
     if request.method == 'GET':
        SI = request.GET.get('search_input')

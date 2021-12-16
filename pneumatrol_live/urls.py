@@ -22,10 +22,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index, name = "index"),
-    path('ORWAapp/',include('ORWAapp.urls')),
+    path('ORWAapp',include('ORWAapp.urls')),
     path('register/', views.register, name = 'register'),
     path('user_login/', views.user_login, name = 'user_login'),
     path('logout/',views.user_logout,name='logout'),
-    path('home/',views.HomeTopLevel,name='HomeTopLevel'),
     path('Search/',views.searchResults, name = "searchResults"),
     ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
