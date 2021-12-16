@@ -48,20 +48,29 @@
 				{% elif ENM %}
 					<ul class="nav flex-column">
 						<li class ="nav-item">
-							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:OpenOrders'%}" role="button">Outstanding ORWA's</a>
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:OpenOrders'%}" role="button">Open orders</a>
 						</li>
-						<br>
+							<br>
 						<li class ="nav-item">
-							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:Allocate'%}" role="button">Allocate ORWA's</a>
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:Allocate'%}" role="button">Allocate</a>
 						</li>
-						<br>						
+							<br>						
 						<li>
 							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:Approve'%}" role="button">Approve Part codes</a>
 						</li>
-						<br>
+							<br>
+						<li>
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:PartTypes' %}" role="button">Part types </a>
+						</li>	
+							<br>
 						<li>
 							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:Completed' %}" role="button">Completed ORWA's</a>
 						</li>
+							<br>
+						<li>
+							<a class="btn btn-primary btn-lg btn-block" href="{% url 'ORWAapp:AllParts' %}" role="button">All Parts</a>
+						</li>
+							<br>
 					</ul>
 				{% elif SAM %}
 					<ul class="nav flex-column">

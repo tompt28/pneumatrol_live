@@ -33,17 +33,17 @@ def index(request):
         user_group = request.user.groups.values_list('name',flat = True) # QuerySet Object
         user_group_as_list = list(user_group)   #QuerySet to `list`
         DEPT = user_group_as_list[0]
-        if user_group_as_list[0] == "ENG":
-            role_dict = {'ENG':"Welcome to the Engineering toolbox"}
+        if user_group_as_list[0] == "ENM":
+            role_dict = {'ENG':"Welcome to the Engineering manager toolbox"}
 
-        elif user_group_as_list[0] == "ENM":
-            role_dict = {'ENM':"Welcome to the Engineering manager toolbox!"}
+        elif user_group_as_list[0] == "ENG":
+            role_dict = {'ENM':"Welcome to the Engineering toolbox"}
 
         elif user_group_as_list[0] == "SAL":
-            role_dict = {'SAL':"Welcome to the Sales toolbox!"}
+            role_dict = {'SAL':"Welcome to the Sales toolbox"}
 
         elif user_group_as_list[0] == "SAM":
-            role_dict = {'SAM':"Welcome to the Sales Manager toolbox!"}
+            role_dict = {'SAM':"Welcome to the Sales Manager toolbox"}
         else:
             print("NO ROLE")
 
