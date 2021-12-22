@@ -47,7 +47,6 @@ class Command(BaseCommand):
             emailaddress = finduser.email
             Report.append(emailaddress)
 
-        Report =['tomt@pneumatrol.com']
         text_content = 'see live.pneumatrol.com'
         html_content  = render_to_string('ORWAapp/home/WeeklyReportEmail.html', contextdict)
         
