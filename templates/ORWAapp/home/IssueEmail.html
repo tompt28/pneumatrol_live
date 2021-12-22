@@ -1,5 +1,16 @@
 <!DOCTYPE html>
 	{% block body_block %}
+	<style>
+		body{background-color: #ffffff;
+		}
+
+		*{font-family: Arial;
+		}
+
+		h1{	color: #AC1E2C;
+			font-family: Arial;
+		}
+	</style>
 		<div class="container">
 			<!-- <a href="live.pneumatrol.com"><img src="https://i.imgur.com/inV9PGY.png" alt="Not Found" style=""></a> -->
 			<div class="jumbotron">
@@ -19,14 +30,14 @@
 				        <th>Notes</th>
 				        <th>Allocation</th>
 				    </tr>
-				    <tr><center>
-	            		<td><a href="http://live.pneumatrol.com/ORWAapp/home/orders/{{ salesdata.order_number }}" target="_blank">{{ salesdata.order_number }}</a></td>
+				    <tr>
+	            		<center><td><a href="http://live.pneumatrol.com/ORWAapp/orders/{{ salesdata.order_number }}" target="_blank">{{ salesdata.order_number }}</a></td>
 				        <td>{{ salesdata.customer }}</td>
 				        <td>{{ salesdata.entered_date }}</td>
 				        <td>{{ salesdata.order_date }}</td>
 				        <td>{{ salesdata.notes }}</td>
-				        <td>{{ salesdata.allocated_to }}</td>
-				    </center></tr>
+				        <td>{{ salesdata.allocated_to }}</td></center>
+				    </tr>	
 					    
 				</table>
 				<hr class="my-4">

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+	{% block body_block %}
+		<div class="container">
+			<!-- <a href="live.pneumatrol.com"><img src="https://i.imgur.com/inV9PGY.png" alt="Not Found" style=""></a> -->
+			<div class="jumbotron">
+			<center>
+			<h1>Parts for ORWA:{{ SalesOrder.order_number }} have been added </h1>
+			<hr class="my-4">
+				<h2>Please approve the following parts to complete the ORWA and issue back to sales</h2>
+					<h3>See the part details below.  <h3>
+			<hr class="my-4">
+				
+				<table style="width:100%;">
+				    <tr>
+				        <th>Part Number</th>
+				        <th>Sales order</th>
+				        <th>Completed by</th>
+				        <th>completed date</th>
+				        <th>Notes</th>
+				    </tr>
+				    {% for p in PartNo %}
+				    <tr><center>
+				        <td><a href="http://live.pneumatrol.com/ORWAapp/Approve">{{ p.part_code }}</a></td>
+   				        <td>{{ p.sales_order }}</td>
+				        <td>{{ p.part_type }}</td>
+				        <td>{{ p.completed_by }}</td>
+				        <td>{{ p.start_date }}</td>
+				        <td>{{ p.completed_date }}</td>
+				        <td>{{ p.notes }}</td>
+				        <td>{{ p.size }}</td>
+				    </center></tr>
+					{% endfor %}
+				</table>
+				<hr class="my-4">
+		</center>
+	{% endblock %}

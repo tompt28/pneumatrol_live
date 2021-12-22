@@ -19,6 +19,12 @@ class Command(BaseCommand):
     help = "Sends email reminder to users with outstanding ORWA's"
 
     def handle(self, *args, **kwargs):
+        
+        # SERVER_EMAIL = 'ORWA.Tracker@gmail.com'
+        # MAIL_HOST ="smtp.gmail.com"
+        # EMAIL_HOST_USER = 'ORWA.Tracker@gmail.com'
+        # EMAIL_HOST_PASSWORD = 'koayxjvqriwnltoq'
+        # EMAIL_PORT = 465
 
         SERVER_EMAIL = 'orwa@pneumatrol.com'
         MAIL_HOST = "192.168.0.253"
@@ -30,25 +36,26 @@ class Command(BaseCommand):
         'SalesOrder':salesdata,
         }
 
-        subject ='Weekly ORWA list'
+        subject ='Weekly ORWA report'
         
-        Reminder = []
+        Report = []
 
-        sendreminder = Employee.objects.filter(ORWAReminder = True)
+        sendreminder = Employee.objects.filter(SMT = True)
         
         for user in sendreminder:
             finduser = User.objects.get(username = user)
             emailaddress = finduser.email
-            Reminder.append(emailaddress)
+            Report.append(emailaddress)
 
+        Report =['tomt@pneumatrol.com']
         text_content = 'see live.pneumatrol.com'
-        html_content  = render_to_string('ORWAapp/home/EmailReminder.html', contextdict)
+        html_content  = render_to_string('ORWAapp/home/WeeklyReportEmail.html', contextdict)
         
         #create message
         message = MIMEMultipart()
         #add parts to message
         message["From"] = SERVER_EMAIL
-        message["To"] =  ', '.join(Reminder)
+        message["To"] =  ', '.join(Report)
         message["Subject"] = subject
         message.preamble = 'ORWA Report'
 
@@ -62,6 +69,6 @@ class Command(BaseCommand):
         #ORWA@Pneumatrol.com
         with smtplib.SMTP(MAIL_HOST, EMAIL_PORT) as server:
             #server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
-            server.sendmail(SERVER_EMAIL, Reminder, message.as_string())
+            server.sendmail(SERVER_EMAIL, Report, message.as_string())
             server.quit()
             print("Successfully sent email")

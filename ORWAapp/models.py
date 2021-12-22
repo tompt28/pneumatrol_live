@@ -35,6 +35,7 @@ class Employee(models.Model):
 
 	ORWAReminder = models.BooleanField(default = False, blank=True)
 	IssueEmails = models.BooleanField(default = False, blank=True)
+	SMT = models.BooleanField(default = False, blank=True)
 
 	Sales = 'SAL'
 	Engineering = 'ENG'

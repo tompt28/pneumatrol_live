@@ -557,12 +557,22 @@ def OrderDetail(request, order):
 @login_required(login_url='/user_login/')
 def AddParts(request, order):
     
+    #Email settings
+    SERVER_EMAIL = 'orwa@pneumatrol.com'
+    MAIL_HOST = "192.168.0.253"
+    EMAIL_PORT = 25
+    
+    #variables
     added = False
     existing = False
     alladd = False
+
+    #queries
     user = request.user.first_name
     od = SalesOrder.objects.get(order_number = order)
     pd = Parts.objects.filter(sales_order = od)
+
+    # ORWA Lines vs New part lines
     partadded = len(pd)
     lines = od.ORWA_lines
     print("ORWA lines:", lines)
@@ -570,7 +580,7 @@ def AddParts(request, order):
     approvecount = Parts.objects.filter(sales_order = od).filter(approved_by__isnull = True)
     print("Part lines to approve:", len(approvecount))
 
-   
+    #form
     pf = Parts(sales_order = od)
 
     if request.method == "POST":
@@ -590,15 +600,61 @@ def AddParts(request, order):
             lines = od.ORWA_lines
             print("ORWA lines:", lines)
             print("Part lines:", partadded)
-            
-            if lines == partadded:
-                alladd = True 
 
+            #what to do if all the lines are added - email the eng team ready for approval
+            if lines == partadded:
+                alladd = True
+
+                Engstaff = Employee.objects.filter(Role = 'ENG')
+                EngMan = Employee.objects.filter(Role = 'ENM')
+
+                NewPartEmails = []
+    
+                for user in Engstaff:
+                    finduser = User.objects.get(username = user)
+                    emailaddress = finduser.email
+                    NewPartEmails.append(emailaddress)
+
+                for user in EngMan:
+                    findman = User.objects.get(username = user)
+                    emailaddress = findman.email
+                    NewPartEmails.append(emailaddress)
+
+                contextdict = {
+                'SalesOrder':od,
+                'PartNo':pd,
+                'insert_me':user,
+                }
+
+                subject =['New parts for ORWA', od.order_number]
+                text_content = 'see live.pneumatrol.com'
+                html_content  = render_to_string('ORWAapp/home/ApproveEmail.html', contextdict)
+                
+                #create message
+                message = MIMEMultipart()
+                #add parts to message
+                message["From"] = SERVER_EMAIL
+                message["To"] =  ', '.join(NewPartEmails)
+                message["Subject"] = ', '.join(subject)
+
+
+                #add body options
+                part2 = MIMEText(html_content, "html")
+
+                # Add HTML/plain-text parts to MIMEMultipart message
+                message.attach(part2)
+
+                #ORWA@Pneumatrol.com
+                with smtplib.SMTP(MAIL_HOST, EMAIL_PORT) as server:
+                    server.sendmail(SERVER_EMAIL, NewPartEmails, message.as_string())
+                    server.quit()
+                    print("Successfully sent email")
+
+            else:
+                print(add_part_form.errors)
+                existing = True
         else:
-            print(add_part_form.errors)
-            existing = True
-    else:
-        add_part_form = AddPartForm(request.POST, instance=pf)
+            add_part_form = AddPartForm(request.POST, instance=pf)
 
     context = {
     'alladd':alladd,

@@ -11,21 +11,20 @@
 			font-family: Arial;
 		}
 	</style>
-
+	
 		<div class="container">
 			<div class="jumbotron">
 			<center>
-
 			{% if SalesOrder %}
-				<h1>ORWA Reminder</h1>
+				<h1>Weekly ORWA Report</h1>
 				<hr class="my-4">
-					<h2>Happy Monday! </h2>
-						<h3>See the ORWA's still to do below.  <h3>
+					<h2>Hi Everyone</h2>
+						<h3>Please see the table below for the current open ORWAs with engineering.<h3>
 				<hr class="my-4">
 				
 				<table style="width:100%;">
 				    <tr>
-				        <th>Order Number</th>
+				        <th><b>Order Number<b></th>
 				        <th>Customer</th>
 				        <th>Entered Date</th>
 				        <th>Order Date</th>
@@ -40,23 +39,26 @@
 				        <td>{{ od.entered_date }}</td>
 				        <td>{{ od.order_date }}</td>
 				        <td>{{ od.notes }}</td>
-				        <td><a href="live.pneumatrol.com" target="_blank">{{ od.order_number }}.pdf</a></td>
+				        <td>{{ od.order_number }}.pdf</td>
 				        <td>{{ od.allocated_to }}</td></center>
 				    </tr>    
 			    {% endfor %}
 				</table>
 				<hr class="my-4">
 
+				<h2>As always, if there’s something that you think is missing from this list, let us know in engineering as soon as possible.</h2>
 				<button><a href="http://live.pneumatrol.com" style="color: #AC1E2C; border: 2px solid black; border-radius: 8px; padding:16px 32px; text-align: center; font-size: 16px; margin: 4px 2px;">Pneumatrol live</a></button>
-
 			{% else %}
+				<h1>Weekly ORWA Report</h1>
+				<hr class="my-4">
+					<h2>Hi Everyone</h2>
+						<h3>Nothing on the open ORWAs list today.  If there’s something that you think is missing from this list, let us know in engineering as soon as possible.<h3>
+					<hr class="my-4">
 
-				<h1>ORWA Reminder</h1>
+					<button><a href="http://live.pneumatrol.com" style="color: #AC1E2C; border: 2px solid black; padding:16px 32px; text-align: center; font-size: 16px; margin: 4px 2px;">Pneumatrol live</a></button>
+
 				<hr class="my-4">
-					<h2>Happy Monday! </h2>
-						<h3>There are No ORWA's open on the Tracker.  <h3>
-				<hr class="my-4">
-					<button><a href="http://live.pneumatrol.com" style="color: #AC1E2C; border: 2px solid black; border-radius: 8px; padding:16px 32px; text-align: center; font-size: 16px; margin: 4px 2px;">Pneumatrol live</a></button>
-				<hr class="my-4">
+			{% endif %}
 			</center>
+
 	{% endblock %}
